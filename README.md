@@ -1,6 +1,6 @@
 # Portafolio y CV · Alejandro Tamayo
 
-Portafolio personal con casos de estudio y un currículum descargable, generados desde un único `cv.json` (esquema de [JSON Resume](https://jsonresume.org/schema/) con algunos campos propios para los casos de estudio).
+Portafolio personal con casos de estudio y un currículum descargable, generados desde un único `src/data/cv.json` (esquema de [JSON Resume](https://jsonresume.org/schema/) con algunos campos propios para los casos de estudio).
 
 Proyecto original basado en [minimalist-portfolio-json](https://github.com/midudev/minimalist-portfolio-json) de midudev.
 
@@ -18,7 +18,7 @@ Proyecto original basado en [minimalist-portfolio-json](https://github.com/midud
 | Ruta | Contenido |
 | :-- | :-- |
 | `/` | Tarjeta de perfil fija, sobre mí, proyectos, experiencia y stack. |
-| `/casos/<slug>` | Detalle de proyecto generado a partir de `projects` en `cv.json` (los que tienen texto, videos o son de Workmate). |
+| `/casos/<slug>` | Detalle de proyecto generado a partir de `projects` en `src/data/cv.json` (los que tienen texto, videos o son de Workmate). |
 | `/cv` | CV tamaño carta listo para imprimir, con versión ATS (`?ats=1`) y opción sin foto (`?foto=0`). |
 | `/og` | Tarjeta de 1200 × 630 que se captura como imagen para compartir (no se indexa). |
 
@@ -31,7 +31,7 @@ Proyecto original basado en [minimalist-portfolio-json](https://github.com/midud
 | `npm run preview` | Sirve el build localmente. |
 | `npm run assets` | Genera `public/cv-alejandro-tamayo.pdf`, `public/cv-alejandro-tamayo-ats.pdf` y `public/og.png` con Chrome o Edge en modo headless. |
 
-Después de editar `cv.json`, ejecuta `npm run assets` y sube los archivos de `public/` para que los PDF descargables queden al día. Si el navegador no está en la ruta por defecto, define `CHROME_PATH`.
+Después de editar `src/data/cv.json`, ejecuta `npm run assets` y sube los archivos de `public/` para que los PDF descargables queden al día. Si el navegador no está en la ruta por defecto, define `CHROME_PATH`.
 
 ## Licencia
 
