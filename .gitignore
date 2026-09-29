@@ -22,3 +22,17 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# local tooling (Claude Code launch config, editor settings)
+.claude/
+.vscode/
+
+# Vercel CLI link
+.vercel/
+
+# local environment files
+.env.*
+!.env.example
+
+# Windows
+Thumbs.db

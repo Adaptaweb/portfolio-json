@@ -1,0 +1,193 @@
+---
+// One browser window that plays several web demo clips back to back, with tabs to jump between them.
+// Each clip `src` is a base with -claro/-oscuro versions; the Showcase decides which one plays.
+interface Clip {
+  src: string
+  caption: string
+  title?: string
+}
+interface Props {
+  clips: Clip[]
+  app?: string
+}
+
+const { clips, app = 'Control de Acceso y Casino' } = Astro.props
+const [first] = clips
+---
+
+<figure class="playlist" data-playlist={JSON.stringify(clips)}>
+  <div class="frame">
+    <div class="bar" aria-hidden="true">
+      <i></i><i></i><i></i>
+      <span>{app} · <b data-title>{first.title ?? first.caption}</b></span>
+    </div>
+    <video
+      data-autoplay
+      data-sequence
+      data-base={first.src}
+      data-phase="claro"
+      src={`${first.src}-claro.mp4`}
+      poster={`${first.src}-claro.jpg`}
+      muted
+      playsinline
+      preload="none"
+      aria-label={first.caption}
+    ></video>
+  </div>
+  <figcaption>
+    <span class="live" aria-hidden="true"></span>
+    <span data-caption>{first.caption}</span>
+  </figcaption>
+  <div class="tabs" role="tablist" aria-label="Pantallas de la demo">
+    {
+      clips.map((c, i) => (
+        <button type="button" class="glow" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-index={i}>
+          {c.title ?? c.caption}
+        </button>
+      ))
+    }
+  </div>
+</figure>
+
+<script>
+  import { changeClip, phaseOf } from '@/lib/theme-video'
+
+  type Clip = { src: string; caption: string; title?: string }
+
+  document.querySelectorAll<HTMLElement>('[data-playlist]').forEach((root) => {
+    const clips: Clip[] = JSON.parse(root.dataset.playlist ?? '[]')
+    const video = root.querySelector('video')!
+    const title = root.querySelector<HTMLElement>('[data-title]')!
+    const caption = root.querySelector<HTMLElement>('[data-caption]')!
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')]
+    let current = 0
+
+    function show(index: number) {
+      current = (index + clips.length) % clips.length
+      const clip = clips[current]
+      changeClip(video, clip.src, phaseOf(root))
+      video.setAttribute('aria-label', clip.caption)
+      title.textContent = clip.title ?? clip.caption
+      caption.textContent = clip.caption
+      tabs.forEach((t, i) => t.setAttribute('aria-selected', String(i === current)))
+    }
+
+    video.addEventListener('ended', () => show(current + 1))
+    tabs.forEach((t, i) => t.addEventListener('click', () => show(i)))
+  })
+</script>
+
+<style>
+  .playlist {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+  .frame {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #0d0e10;
+    box-shadow:
+      0 0 0 1px #3a3e44,
+      0 60px 100px -40px rgb(0 0 0 / 0.9),
+      0 30px 90px -40px color-mix(in oklab, var(--accent) 55%, transparent);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 14px;
+    background: #18191c;
+    border-bottom: 1px solid #2a2d31;
+    font: 500 12px var(--font-mono);
+    color: var(--muted);
+  }
+  .bar i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .bar i:nth-child(1) {
+    background: #ff5f57;
+  }
+  .bar i:nth-child(2) {
+    background: #febc2e;
+  }
+  .bar i:nth-child(3) {
+    background: #28c840;
+  }
+  .bar span {
+    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bar b {
+    font-weight: 500;
+    color: var(--soft);
+  }
+  video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: top left;
+    background: #0f1113;
+  }
+  figcaption {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: rgb(16 17 20 / 0.78);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    backdrop-filter: blur(12px);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--soft);
+  }
+  .live {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    animation: beat 1.6s ease-in-out infinite;
+  }
+  @keyframes beat {
+    50% {
+      opacity: 0.35;
+    }
+  }
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+  .tabs button {
+    min-height: 40px;
+    padding: 0 14px;
+    border: 1px solid rgb(255 255 255 / 0.12);
+    border-radius: 999px;
+    background-color: rgb(16 17 20 / 0.78);
+    backdrop-filter: blur(12px);
+    color: var(--soft);
+    font: 500 13px var(--font-sans);
+    cursor: pointer;
+  }
+  .tabs button:hover {
+    color: var(--ink);
+  }
+  .tabs button[aria-selected='true'] {
+    --c: 255 255 255;
+    --aura: 184 242 91;
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+</style>

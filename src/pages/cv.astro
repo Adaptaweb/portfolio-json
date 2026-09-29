@@ -1,0 +1,462 @@
+---
+import '@/styles/global.css'
+import Icon from '@/components/Icon.astro'
+import {
+  basics,
+  work,
+  education,
+  skills,
+  languages,
+  projects,
+  profile,
+  formatRange,
+  PDF_PATH,
+  PDF_ATS_PATH,
+} from '@/lib/cv'
+
+const { city, region } = basics.location
+const linkedin = profile('LinkedIn')
+const github = profile('GitHub')
+const site = basics.url.replace(/^https?:\/\//, '').replace(/\/$/, '')
+const strip = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '')
+const platform = projects.find((p) => p.slug === 'control-acceso-casino')!
+const personal = projects.filter((p) => p.entity === 'Proyecto propio' && p !== platform)
+const cvProjects = [
+  { name: platform.name, type: 'Proyecto propio', text: platform.summary, keywords: platform.keywords },
+  {
+    name: 'Otros proyectos propios',
+    type: `${personal.length} proyectos`,
+    text: personal.map((p) => `${p.name} (${p.keywords.slice(0, 2).join(', ')})`).join(' · '),
+    keywords: [] as string[],
+  },
+]
+---
+
+<!doctype html>
+<html lang="es-CL" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CV · {basics.name}</title>
+    <meta name="description" content={`Currículum de ${basics.name}: ${basics.label}.`} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      const q = new URLSearchParams(location.search)
+      if (q.get('ats') === '1') document.documentElement.classList.add('ats')
+      if (q.get('foto') === '0') document.documentElement.classList.add('no-photo')
+    </script>
+  </head>
+  <body>
+    <div class="toolbar" role="toolbar" aria-label="Opciones del currículum">
+      <a class="btn" href="/"><Icon name="arrow-left" /> Portafolio</a>
+      <div class="group">
+        <label class="switch"><input type="checkbox" data-toggle="ats" /> Versión ATS</label>
+        <label class="switch"><input type="checkbox" data-toggle="no-photo" /> Sin foto</label>
+      </div>
+      <div class="group">
+        <button type="button" class="btn" data-print><Icon name="printer" /> Imprimir</button>
+        <a class="btn btn-primary" href={PDF_PATH} download data-pdf><Icon name="download" /> Descargar PDF</a>
+      </div>
+    </div>
+
+    <main class="sheet">
+      <header class="head">
+        <div class="id">
+          <h1 class="serif">{basics.name}</h1>
+          <p class="role">{basics.label}</p>
+          <ul class="contact">
+            <li><Icon name="pin" size={13} /> {city}, Región de {region}</li>
+            <li><Icon name="phone" size={13} /> <a href={`tel:${basics.phone.replace(/\s/g, '')}`}>{basics.phone}</a></li>
+            <li><Icon name="mail" size={13} /> <a href={`mailto:${basics.email}`}>{basics.email}</a></li>
+            {linkedin && <li><Icon name="linkedin" size={13} /> <a href={linkedin.url}>{strip(linkedin.url)}</a></li>}
+            {github && <li><Icon name="github" size={13} /> <a href={github.url}>{strip(github.url)}</a></li>}
+            <li><Icon name="globe" size={13} /> <a href={basics.url}>{site}</a></li>
+          </ul>
+        </div>
+        <img class="photo" src={basics.image} alt={`Fotografía de ${basics.name}`} width="112" height="112" />
+      </header>
+
+      <div class="body">
+        <div class="main">
+          <section>
+            <h2>Perfil profesional</h2>
+            <p>{basics.summary}</p>
+          </section>
+
+          <section>
+            <h2>Experiencia laboral</h2>
+            {
+              work.map((job) => (
+                <article class="job">
+                  <h3>
+                    {job.position} <span>· {job.name}</span>
+                  </h3>
+                  <p class="where">
+                    <span>{job.location}</span>
+                    <span class="when">{formatRange(job.startDate, job.endDate)}</span>
+                  </p>
+                  <p>{job.summary}</p>
+                  {job.highlights.length > 0 && (
+                    <ul>
+                      {job.highlights.map((h) => (
+                        <li>{h}</li>
+                      ))}
+                    </ul>
+                  )}
+                </article>
+              ))
+            }
+          </section>
+
+          <section>
+            <h2>Proyectos destacados</h2>
+            {
+              cvProjects.map((p) => (
+                <article class="project">
+                  <h3>
+                    {p.name} <span>· {p.type}</span>
+                  </h3>
+                  <p>{p.text}</p>
+                  {p.keywords.length > 0 && <p class="tech">{p.keywords.join(' · ')}</p>}
+                </article>
+              ))
+            }
+          </section>
+        </div>
+
+        <aside class="side">
+
+          <section>
+            <h2>Competencias técnicas</h2>
+            {
+              skills.map((s) => (
+                <div class="skill">
+                  <h3>{s.name}</h3>
+                  <p>{s.keywords.join(', ')}</p>
+                </div>
+              ))
+            }
+          </section>
+
+          <section>
+            <h2>Formación</h2>
+            {
+              education.map((e) => (
+                <div class="skill">
+                  <h3>{e.area}</h3>
+                  <p>
+                    {e.institution}
+                    <br />
+                    {e.studyType} · {e.startDate}–{e.endDate}
+                  </p>
+                </div>
+              ))
+            }
+          </section>
+
+          <section>
+            <h2>Idiomas</h2>
+            {
+              languages.map((l) => (
+                <p class="lang">
+                  <span>{l.language}</span> {l.fluency}
+                </p>
+              ))
+            }
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <script>
+      import '@/scripts/glow'
+    </script>
+    <script define:vars={{ PDF_PATH, PDF_ATS_PATH }}>
+      const root = document.documentElement
+      const pdf = document.querySelector('[data-pdf]')
+      const sync = () => {
+        pdf.href = root.classList.contains('ats') ? PDF_ATS_PATH : PDF_PATH
+      }
+      document.querySelectorAll('[data-toggle]').forEach((input) => {
+        const cls = input.dataset.toggle
+        input.checked = root.classList.contains(cls)
+        input.addEventListener('change', () => {
+          root.classList.toggle(cls, input.checked)
+          const q = new URLSearchParams(location.search)
+          const key = cls === 'ats' ? 'ats' : 'foto'
+          const on = cls === 'ats' ? '1' : '0'
+          input.checked ? q.set(key, on) : q.delete(key)
+          history.replaceState(null, '', `${location.pathname}${q.size ? `?${q}` : ''}`)
+          sync()
+        })
+      })
+      document.querySelector('[data-print]').addEventListener('click', () => print())
+      sync()
+    </script>
+  </body>
+</html>
+
+<style>
+  :root {
+    --paper: #ffffff;
+    --cv-ink: #1f1e1c;
+    --cv-muted: #55524b;
+    --cv-line: #dcd6cb;
+    --cv-accent: #3f6212;
+  }
+  @page {
+    size: letter;
+    margin: 0;
+  }
+  body {
+    background: var(--surface-2);
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px var(--gutter);
+    background: color-mix(in oklab, var(--bg) 88%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .toolbar .btn {
+    min-height: 44px;
+    font-size: 15px;
+  }
+  .switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .switch input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+  }
+
+  /* Hoja tamaño carta: 216 × 279 mm */
+  .sheet {
+    width: 216mm;
+    min-height: 279mm;
+    margin: 32px auto 64px;
+    padding: 14mm 15mm;
+    background: var(--paper);
+    color: var(--cv-ink);
+    font-size: 9.2pt;
+    line-height: 1.42;
+    box-shadow: 0 20px 60px rgb(0 0 0 / 0.12);
+  }
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8mm;
+    padding-bottom: 5mm;
+    border-bottom: 1.5pt solid var(--cv-ink);
+  }
+  h1 {
+    font-size: 26pt;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .role {
+    margin-top: 2mm;
+    font-size: 11pt;
+    font-weight: 500;
+    color: var(--cv-accent);
+  }
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1mm 4mm;
+    margin-top: 3mm;
+    list-style: none;
+    font-size: 8.4pt;
+    color: var(--cv-muted);
+  }
+  .contact li {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5mm;
+  }
+  .contact a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .photo {
+    width: 26mm;
+    height: 26mm;
+    flex: none;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 54mm;
+    gap: 8mm;
+    padding-top: 5mm;
+  }
+  section + section {
+    margin-top: 4.5mm;
+  }
+  h2 {
+    margin-bottom: 2.5mm;
+    padding-bottom: 1mm;
+    border-bottom: 0.75pt solid var(--cv-line);
+    font: 600 8pt var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cv-accent);
+  }
+  h3 {
+    font-size: 10.2pt;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  h3 span {
+    font-weight: 400;
+    color: var(--cv-muted);
+  }
+  .main p,
+  .main li {
+    color: #2e2c28;
+  }
+  .job + .job,
+  .project + .project {
+    margin-top: 3.2mm;
+  }
+  .when {
+    flex: none;
+    font: 8.4pt var(--font-mono);
+    color: var(--cv-muted);
+  }
+  .where {
+    display: flex;
+    justify-content: space-between;
+    gap: 4mm;
+    font-size: 8.6pt;
+    color: var(--cv-muted) !important;
+    margin-bottom: 1mm;
+  }
+  .job ul {
+    display: grid;
+    gap: 0.4mm;
+    margin-top: 1.2mm;
+    padding-left: 4mm;
+  }
+  .job li::marker {
+    color: var(--cv-accent);
+  }
+  .tech {
+    margin-top: 1mm;
+    font: 8.2pt var(--font-mono);
+    color: var(--cv-muted) !important;
+  }
+  .side {
+    font-size: 8.8pt;
+  }
+  .skill + .skill {
+    margin-top: 2.5mm;
+  }
+  .skill h3 {
+    font-size: 9pt;
+  }
+  .skill p {
+    color: var(--cv-muted);
+  }
+  .lang span {
+    font-weight: 600;
+  }
+
+  /* Versión ATS: una columna, sin foto ni cifras decorativas, orden lineal */
+  :global(.ats) .body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :global(.ats) .photo,
+  :global(.no-photo) .photo {
+    display: none;
+  }
+  :global(.ats) .side {
+    font-size: 9.6pt;
+  }
+  :global(.ats) .side section {
+    margin-top: 5mm;
+  }
+  :global(.ats) .skill {
+    display: grid;
+    grid-template-columns: 30mm minmax(0, 1fr);
+    gap: 4mm;
+  }
+  :global(.ats .contact svg) {
+    display: none;
+  }
+
+  @media screen and (max-width: 860px) {
+    .sheet {
+      width: auto;
+      min-height: 0;
+      margin: 16px;
+      padding: 24px 20px;
+      font-size: 15px;
+    }
+    .head {
+      flex-direction: column-reverse;
+    }
+    .body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .where {
+      flex-direction: column;
+    }
+    h1 {
+      font-size: 40px;
+    }
+    .contact,
+    .side,
+    .where,
+    .when,
+    .tech {
+      font-size: 14px !important;
+    }
+  }
+
+  @media print {
+    body {
+      background: #fff;
+    }
+    .toolbar {
+      display: none;
+    }
+    .sheet {
+      width: auto;
+      min-height: 0;
+      margin: 0;
+      padding: 10mm 13mm;
+      box-shadow: none;
+    }
+    .job,
+    .project,
+    .skill {
+      break-inside: avoid;
+    }
+  }
+</style>

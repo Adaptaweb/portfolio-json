@@ -1,0 +1,182 @@
+---
+import { basics, profile, PDF_PATH } from '@/lib/cv'
+
+type Command = { id: string; label: string; group: string; href?: string; action?: string; value?: string }
+
+const commands: Command[] = [
+  { id: 'sobre', group: 'Ir a', label: 'Sobre mí', href: '/#sobre' },
+  { id: 'proyectos', group: 'Ir a', label: 'Proyectos', href: '/#proyectos' },
+  { id: 'caso', group: 'Proyectos', label: 'Control de Acceso y Casino', href: '/casos/control-acceso-casino' },
+  { id: 'ideas', group: 'Proyectos', label: 'Ideas Blueprint', href: '/casos/ideas-blueprint' },
+  { id: 'dgm', group: 'Proyectos', label: 'Sistema DGM', href: '/casos/sistema-dgm' },
+  { id: 'exp', group: 'Ir a', label: 'Experiencia', href: '/#experiencia' },
+  { id: 'stack', group: 'Ir a', label: 'Stack', href: '/#stack' },
+  { id: 'cv', group: 'CV', label: 'Ver currículum', href: '/cv' },
+  { id: 'pdf', group: 'CV', label: 'Descargar CV en PDF', href: PDF_PATH },
+  { id: 'mail', group: 'Contacto', label: `Copiar correo (${basics.email})`, action: 'copy', value: basics.email },
+  { id: 'write', group: 'Contacto', label: 'Escribir un correo', href: `mailto:${basics.email}` },
+  { id: 'li', group: 'Contacto', label: 'Abrir LinkedIn', href: profile('LinkedIn')?.url },
+  { id: 'gh', group: 'Contacto', label: 'Abrir GitHub', href: profile('GitHub')?.url },
+]
+---
+
+<dialog class="palette" aria-label="Buscador de comandos">
+  <form method="dialog" class="box">
+    <label class="sr-only" for="palette-input">Buscar comando</label>
+    <input id="palette-input" type="text" placeholder="¿A dónde quieres ir?" autocomplete="off" role="combobox" aria-controls="palette-list" aria-expanded="true" />
+    <ul id="palette-list" role="listbox">
+      {
+        commands.map((c) => (
+          <li
+            role="option"
+            aria-selected="false"
+            data-label={c.label.toLowerCase()}
+            data-href={c.href}
+            data-action={c.action}
+            data-value={c.value}
+          >
+            <span>{c.label}</span>
+            <small>{c.group}</small>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="empty" hidden>Sin resultados.</p>
+    <p class="keys"><kbd>↑</kbd><kbd>↓</kbd> moverse · <kbd>Enter</kbd> abrir · <kbd>Esc</kbd> cerrar</p>
+  </form>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('dialog.palette')!
+  const input = dialog.querySelector('input')!
+  const items = [...dialog.querySelectorAll<HTMLLIElement>('li')]
+  const empty = dialog.querySelector<HTMLElement>('.empty')!
+  let active = 0
+
+  const visible = () => items.filter((li) => !li.hidden)
+
+  function highlight(index: number) {
+    const list = visible()
+    active = (index + list.length) % Math.max(list.length, 1)
+    items.forEach((li) => li.setAttribute('aria-selected', 'false'))
+    list[active]?.setAttribute('aria-selected', 'true')
+    list[active]?.scrollIntoView({ block: 'nearest' })
+  }
+
+  function open() {
+    input.value = ''
+    filter()
+    dialog.showModal()
+    input.focus()
+  }
+
+  function filter() {
+    const q = input.value.trim().toLowerCase()
+    items.forEach((li) => (li.hidden = !li.dataset.label!.includes(q)))
+    empty.hidden = visible().length > 0
+    highlight(0)
+  }
+
+  async function run(li?: HTMLLIElement) {
+    if (!li) return
+    dialog.close()
+    const { href, action, value } = li.dataset
+    if (action === 'copy' && value) await navigator.clipboard?.writeText(value)
+    else if (href) href.startsWith('http') ? window.open(href, '_blank', 'noopener') : (location.href = href)
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault()
+      dialog.open ? dialog.close() : open()
+    }
+  })
+  document.querySelectorAll('[data-open-palette]').forEach((b) => b.addEventListener('click', open))
+  input.addEventListener('input', filter)
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') (e.preventDefault(), highlight(active + 1))
+    if (e.key === 'ArrowUp') (e.preventDefault(), highlight(active - 1))
+    if (e.key === 'Enter') (e.preventDefault(), run(visible()[active]))
+  })
+  items.forEach((li) => {
+    li.addEventListener('click', () => run(li))
+    li.addEventListener('mousemove', () => highlight(visible().indexOf(li)))
+  })
+  dialog.addEventListener('click', (e) => e.target === dialog && dialog.close())
+</script>
+
+<style>
+  .palette {
+    width: min(560px, calc(100vw - 32px));
+    margin: 12vh auto auto;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 24px 80px rgb(0 0 0 / 0.25);
+  }
+  .palette::backdrop {
+    background: rgb(10 12 18 / 0.45);
+    backdrop-filter: blur(4px);
+  }
+  .palette[open] {
+    animation: pop 0.18s ease-out;
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      scale: 0.97;
+    }
+  }
+  input {
+    width: 100%;
+    padding: 18px 20px;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font: 17px var(--font-sans);
+    outline: none;
+  }
+  ul {
+    max-height: 340px;
+    overflow-y: auto;
+    padding: 8px;
+    list-style: none;
+  }
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  li[aria-selected='true'] {
+    background: var(--accent-soft);
+  }
+  small {
+    font: 12px var(--font-mono);
+    color: var(--muted);
+  }
+  .empty,
+  .keys {
+    padding: 12px 20px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .keys {
+    border-top: 1px solid var(--line);
+  }
+  kbd {
+    margin-right: 4px;
+    padding: 0 5px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    font: 11px var(--font-mono);
+  }
+</style>

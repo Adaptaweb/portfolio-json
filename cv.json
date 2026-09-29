@@ -1,352 +1,538 @@
 {
   "basics": {
     "name": "Alejandro Tamayo Echavarría",
-    "label": "Full Stack Developer con más de 8 años de experiencia & Soporte dedicado para sistemas informáticos",
+    "label": "Full Stack Developer · Soporte Senior",
     "image": "/me.webp",
     "email": "a.tamayo.web@gmail.com",
     "phone": "+56 9 71977092",
     "url": "https://portfolio-alejandro-tamayo.vercel.app/",
-    "summary": "Ingeniero en Informática con 8 años de experiencia en desarrollo de software, especializado en PHP, MySQL y MongoDB. Tengo un sólido historial en el diseño de microservicios, creación de APIs, implementación de Docker y control de versiones con Git. Mi experiencia incluye tanto desarrollo en oficina como soporte técnico en terreno, trabajando directamente con clientes para asegurar la implementación y mantenimiento eficiente de sistemas. Me apasiona aprender, innovar y mantenerme actualizado con las últimas tecnologías. Comprometido con el crecimiento profesional y personal, siempre busco nuevas oportunidades para mejorar y avanzar en mi carrera.",
+    "summary": "Ingeniero en Informática con base en Calama. Desarrollo aplicaciones web y móviles de punta a punta con React, FastAPI, Flutter y PostgreSQL. En Workmate fui el desarrollador principal del sistema de control de acceso y casino DGM, que hoy monitoreo y entrego soporte a diario; además atiendo el sistema de acreditación SUCAL y mantengo en terreno sistemas de control de acceso y casino en distintas divisiones de Codelco.",
     "location": {
-      "address": "",
-      "postalCode": "1390000",
       "city": "Calama",
-      "countryCode": "CL",
-      "region": "Chile"
+      "region": "Antofagasta",
+      "countryCode": "CL"
     },
     "profiles": [
       {
         "network": "LinkedIn",
-        "username": "Alejandro Tamayo Echavarría",
+        "username": "alejandro-tamayo-e",
         "url": "https://linkedin.com/in/alejandro-tamayo-e"
-      },
-      {
-        "network": "X",
-        "username": "AeTe",
-        "url": "https://x.com/AeteXd"
       },
       {
         "network": "GitHub",
         "username": "Adaptaweb",
         "url": "https://github.com/Adaptaweb"
-      },
-      {
-        "network": "WorldMap",
-        "username": "Alejandro Tamayo Echavarría",
-        "url": "https://portfolio-alejandro-tamayo.vercel.app/"
       }
     ]
   },
   "work": [
     {
       "name": "Workmate",
-      "position": "Ingeniero en Terreno • Desarrollador • Soporte Técnico • Remoto/Terreno",
+      "position": "Soporte senior y desarrollador",
+      "location": "Calama · remoto y terreno",
       "url": "https://workmate.cl",
-      "startDate": "2017-06-01",
-      "endDate": null,
-      "summary": "Especialista en el desarrollo y mantención de sistemas de Control de Acceso, Casinos y Sistemas de Acreditación y Control Laboral, con experiencia en todas las divisiones de Codelco Chile.\nMis responsabilidades incluyen:\nDesarrollo de sistemas de Control de Acceso.\nSoporte técnico en terreno y remoto para optimizar sistemas.\nDiseño de UI/UX: Creación de interfaces intuitivas.\nDesarrollo de APIs: Integración y comunicación de sistemas.\nImplementación de Docker y Git: Creación de entornos consistentes y gestión de versiones.\nGestión y comunicación con clientes para asegurar la satisfacción y cumplimiento de requisitos.",
+      "startDate": "2017-06",
+      "summary": "Desarrollo, soporte y mantención de sistemas de control de acceso, casino y acreditación para la minería.",
       "highlights": [
-        "Started the company"
+        "Desarrollador principal del sistema de control de acceso y casino DGM (web en Laravel + MongoDB y aplicaciones móviles); hoy lo monitoreo y doy soporte diario.",
+        "Soporte senior del sistema de acreditación SUCAL: responsable de responder y resolver los casos de soporte.",
+        "Mantención en terreno de sistemas de control de acceso y casino.",
+        "He recorrido distintas divisiones de Codelco a lo largo de Chile, conociendo y operando sus sistemas de acceso y casino."
       ]
     },
     {
       "name": "Gestpyme",
-      "position": "Desarrollador FULL STACK",
+      "position": "Desarrollador Full Stack",
+      "location": "Calama",
       "url": "https://www.gestpyme.cl/",
-      "startDate": "2016-06-01",
-      "endDate": "2017-09-01",
-      "summary": "Desarrollo Full-stack de software de escritorio, web y aplicaciones móviles, Principalmente en el lenguaje de programación Wlanguage (Windev, Webdev y Windev Mobile de PC SOFT).",
-      "highlights": [
-        "Started the company"
-      ]
+      "startDate": "2016-06",
+      "endDate": "2017-09",
+      "summary": "Desarrollo de software de escritorio, web y aplicaciones móviles con WinDev, WebDev y WinDev Mobile (WLanguage, PC SOFT).",
+      "highlights": []
     },
     {
       "name": "Anovo Andes",
-      "position": "Especialista en soporte para tecnología",
-      "startDate": "2015-03-01",
-      "endDate": "2016-05-01",
-      "summary": "Entrega de servicio y Soporte técnico, además de atención al cliente en telefonía y computación en sucursal de Falabella, Calama.",
-      "highlights": [
-        "Started the company"
-      ]
-    }
-  ],
-  "volunteer": [
-    {
-      "organization": "Organization",
-      "position": "Volunteer",
-      "url": "https://organization.com/",
-      "startDate": "2012-01-01",
-      "endDate": "2013-01-01",
-      "summary": "Description…",
-      "highlights": [
-        "Awarded 'Volunteer of the Month'"
-      ]
+      "position": "Especialista en soporte tecnológico",
+      "location": "Calama",
+      "startDate": "2015-03",
+      "endDate": "2016-05",
+      "summary": "Servicio técnico y atención al cliente en telefonía y computación en la sucursal Falabella de Calama.",
+      "highlights": []
     }
   ],
   "education": [
     {
       "institution": "Universidad Tecnológica de Chile INACAP",
-      "url": "https://portales.inacap.cl/sobre-nosotros/universidad/",
-      "area": "Grado en Ingeniería, Ingeniería informática",
-      "studyType": "Universitario",
-      "startDate": "2012-01-01",
-      "endDate": "2015-01-01",
-      "score": "4.0",
-      "courses": [
-        "DB1101 - Basic SQL"
-      ]
-    }
-  ],
-  "awards": [
-    {
-      "title": "Award",
-      "date": "2014-11-01",
-      "awarder": "Company",
-      "summary": "There is no spoon."
-    }
-  ],
-  "certificates": [
-    {
-      "name": "Certificate",
-      "date": "2021-11-07",
-      "issuer": "Company",
-      "url": "https://certificate.com"
-    }
-  ],
-  "publications": [
-    {
-      "name": "Publication",
-      "publisher": "Company",
-      "releaseDate": "2014-10-01",
-      "url": "https://publication.com",
-      "summary": "Description…"
+      "url": "https://portales.inacap.cl/",
+      "area": "Ingeniería en Informática",
+      "studyType": "Título profesional",
+      "startDate": "2012",
+      "endDate": "2015"
     }
   ],
   "skills": [
     {
-      "name": "HTML",
-      "level": "Master",
+      "name": "Backend",
       "keywords": [
-        "Desarrollo Web",
-        "Frontend"
+        "Python",
+        "FastAPI",
+        "SQLAlchemy",
+        "Pydantic",
+        "Alembic",
+        "pytest",
+        "Node.js",
+        "PHP",
+        "Laravel",
+        "C#"
       ]
     },
     {
-      "name": "CSS",
-      "level": "Master",
+      "name": "Frontend",
       "keywords": [
-        "Desarrollo Web",
-        "Frontend",
-        "Diseño Responsive"
+        "React",
+        "TypeScript",
+        "JavaScript",
+        "Vite",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "TanStack Table",
+        "Recharts",
+        "Astro"
       ]
     },
     {
-      "name": "JavaScript",
-      "level": "Master",
+      "name": "Móvil",
       "keywords": [
-        "Desarrollo Web",
-        "Frontend",
-        "Backend",
-        "Fullstack"
+        "Flutter",
+        "Dart",
+        "Android",
+        "Riverpod",
+        "drift",
+        "Offline-first"
       ]
     },
     {
-      "name": "Astro",
-      "level": "Medium",
+      "name": "Datos",
       "keywords": [
-        "Desarrollo Web",
-        "Frontend",
-        "Static pages",
-        "Diseño Responsive"
-      ]
-    },
-   
-    {
-      "name": "MySQL",
-      "level": "Avanzado",
-      "keywords": [
-        "Bases de Datos",
-        "SQL",
-        "Almacenamiento de Datos",
-        "Backend"
+        "PostgreSQL",
+        "MongoDB",
+        "MySQL",
+        "SQLite",
+        "Migración de datos",
+        "OData / Power BI"
       ]
     },
     {
-      "name": "Git",
-      "level": "Avanzado",
+      "name": "DevOps",
       "keywords": [
-        "Control de Versiones",
-        "Colaboración",
-        "Código Fuente"
-      ]
-    },
-    {
-      "name": "GitHub",
-      "level": "Avanzado",
-      "keywords": [
-        "Control de Versiones",
-        "Colaboración",
-        "Código Fuente",
-        "Git"
-      ]
-    },
-    {
-      "name": "MongoDB",
-      "level": "Avanzado",
-      "keywords": [
-        "Bases de Datos",
-        "NoSQL",
-        "Almacenamiento de Datos",
-        "Backend"
-      ]
-    },
-    {
-      "name": "PHP",
-      "level": "Avanzado",
-      "keywords": [
-        "Desarrollo Web",
-        "Backend",
-        "Lenguaje de Programación"
-      ]
-    },
-    {
-      "name": "Docker",
-      "level": "Avanzado",
-      "keywords": [
-        "Contenedores",
-        "Despliegue",
-        "Infraestructura",
-        "DevOps"
-      ]
-    },
-    {
-      "name": "Jira Software",
-      "level": "Avanzado",
-      "keywords": [
-        "Gestión de Proyectos",
-        "Desarrollo de Software",
-        "Colaboración",
-        "Agile"
-      ]
-    }
-    ,
-    {
-      "name": "C#",
-      "level": "Medium",
-      "keywords": [
-        "Desarrollo Web",
-        "Backend",
-        "Lenguaje de Programación"
-      ]
-    },
-    {
-      "name": "Laravel",
-      "level": "Medium",
-      "keywords": [
-        "Desarrollo Web",
-        "Backend",
-        "Lenguaje de Programación"
-      ]
-    }
-    ,
-    {
-      "name": "Python",
-      "level": "Medium",
-      "keywords": [
-        "Desarrollo Web",
-        "Backend",
-        "Lenguaje de Programación"
+        "Docker",
+        "Nginx",
+        "k6",
+        "Git",
+        "GitHub",
+        "Jira"
       ]
     }
   ],
   "languages": [
     {
-      "language": "Spanish",
-      "fluency": "Native speaker"
+      "language": "Español",
+      "fluency": "Nativo"
     },
     {
-      "language": "English",
-      "fluency": "Advanced"
-    }
-  ],
-  "interests": [
-    {
-      "name": "Wildlife",
-      "keywords": [
-        "Ferrets",
-        "Unicorns"
-      ]
-    }
-  ],
-  "references": [
-    {
-      "name": "Jane Doe",
-      "reference": "Reference…"
+      "language": "Inglés",
+      "fluency": "Intermedio"
     }
   ],
   "projects": [
     {
-      "name": "mars.codes",
-      "isActive": true,
-      "description": "Historia interactiva con retos de programación para viajar a Marte",
-      "highlights": [
-        "Elige tu propia aventura",
-        "En desarrollo"
+      "slug": "control-acceso-casino",
+      "name": "Control de Acceso y Casino",
+      "type": "Plataforma web + API + apps móviles",
+      "entity": "Proyecto propio",
+      "startDate": "2026-07",
+      "description": "Plataforma completa que desarrollé por mi cuenta: registra quién entra y sale de un recinto (Personas, Vehículos y Pasajeros) y quién consume en casino, con un mismo servicio de validación para el panel web, las apps Flutter de portería y casino, y el catálogo offline. Incluye la migración de datos desde MongoDB a PostgreSQL y pruebas de carga con k6.",
+      "summary": "Panel web, API y apps Flutter con modo offline, desarrollados por mi cuenta; incluye la migración de datos configurable a PostgreSQL y pruebas de carga con k6.",
+      "keywords": [
+        "React 19",
+        "TypeScript",
+        "FastAPI",
+        "PostgreSQL",
+        "Flutter",
+        "Docker",
+        "k6"
       ],
-      "url": "https://mars.codes"
+      "problem": "Supervisión y clientes dependían de consultas manuales a la base de datos y de planillas sueltas para saber quién estaba en faena y cuánto se consumía en casino. El sistema anterior, en Laravel y MongoDB, ya no sostenía el volumen ni los reportes que se pedían.",
+      "context": [
+        "Faena con turnos y jornadas: cada evento trae empresa, contrato y tipo de acreditación.",
+        "Servicios de casino con ventana horaria; TRASNOCHE cruza la medianoche.",
+        "Conectividad intermitente en terreno y dispositivos autorizados por casino.",
+        "Identidad por RUT chileno y zona horaria America/Santiago en todo el sistema."
+      ],
+      "decisions": [
+        {
+          "title": "Un solo servicio de validación",
+          "text": "La web, los lectores y el catálogo offline preguntan lo mismo al mismo servicio, así una regla de acceso nunca se contradice entre canales."
+        },
+        {
+          "title": "Registro idempotente",
+          "text": "Cada entrada o consumo lleva un client_event_id; los reintentos desde un lector sin red no duplican registros."
+        },
+        {
+          "title": "Workers aislados",
+          "text": "El refresco del catálogo offline y la sincronización BI corren en procesos propios: si uno falla, la API y el login siguen en pie."
+        },
+        {
+          "title": "Exportación en cola",
+          "text": "Hasta 12 mil filas se descarga directo; sobre eso se encola y queda en «Mis reportes», sin bloquear la pantalla."
+        },
+        {
+          "title": "Medir antes de optimizar",
+          "text": "Campaña de carga con k6 (humo, nominal, pico, estrés) e índices creados a partir de lo que mostró el desglose por endpoint."
+        }
+      ],
+      "architecture": {
+        "clients": [
+          {
+            "name": "Panel web",
+            "detail": "React 19 · TypeScript · Tailwind"
+          },
+          {
+            "name": "Lector de acceso",
+            "detail": "Flutter · terminal 2D"
+          },
+          {
+            "name": "Kiosco de casino",
+            "detail": "Flutter · tablet Android"
+          },
+          {
+            "name": "Power BI de clientes",
+            "detail": "feed OData con auditoría"
+          }
+        ],
+        "services": [
+          {
+            "name": "API FastAPI",
+            "detail": "async · SQLAlchemy 2 · asyncpg · JWT",
+            "primary": true
+          },
+          {
+            "name": "catalogo_refresh_worker",
+            "detail": "catálogo offline cada 15 min"
+          },
+          {
+            "name": "bi_sync_worker",
+            "detail": "sincronización para BI"
+          }
+        ],
+        "data": [
+          {
+            "name": "PostgreSQL 16",
+            "detail": "~20 M filas operativas · índices dedicados",
+            "primary": true
+          },
+          {
+            "name": "MongoDB legado",
+            "detail": "origen migrado desde Laravel"
+          }
+        ]
+      },
+      "results": [
+        "Supervisión obtiene dashboard, reportes filtrables y Excel sin pedirle a nadie una consulta.",
+        "La API se validó con pruebas de carga que simulan lectores de acceso y casinos operando al mismo tiempo.",
+        "Clientes externos pueden actualizar su Power BI solos, con credencial y auditoría por integración."
+      ],
+      "media": [
+        {
+          "src": "/media/control-acceso/dashboard",
+          "caption": "Dashboard en vivo: personas y vehículos del día",
+          "title": "Dashboard"
+        },
+        {
+          "src": "/media/control-acceso/ficha",
+          "caption": "Consulta de ficha, estado de acceso y bloqueos",
+          "title": "Consultar ficha"
+        },
+        {
+          "src": "/media/control-acceso/reportes",
+          "caption": "Reportes filtrables con exportación a Excel",
+          "title": "Reportes"
+        },
+        {
+          "src": "/media/control-acceso/casino30",
+          "caption": "Consumo de casino cada 30 minutos",
+          "title": "Casino cada 30 min"
+        },
+        {
+          "src": "/media/control-acceso/app-peatones",
+          "caption": "Peatones",
+          "device": "phone"
+        },
+        {
+          "src": "/media/control-acceso/app-vehiculo",
+          "caption": "Vehículos",
+          "device": "phone"
+        },
+        {
+          "src": "/media/control-acceso/app-casino",
+          "caption": "Tablet de casino: marcas, repite e historial",
+          "device": "tablet"
+        }
+      ]
     },
     {
-      "name": "AdventJS",
-      "isActive": true,
-      "description": "Retos de programación en JavaScript para cada día de diciembre hasta Navidad",
-      "highlights": [
-        "+1 millón de visitas",
-        "Multidioma",
-        "JavaScript & TypeScript"
+      "slug": "lector-acceso",
+      "name": "Lector de acceso offline-first",
+      "type": "App Flutter",
+      "entity": "Proyecto propio · parte de Control de Acceso y Casino",
+      "startDate": "2026-08",
+      "description": "App para terminales rugged con lector 2D o teléfonos con cámara que valida y registra entradas y salidas de personas y vehículos, también sin red.",
+      "summary": "App para terminales 2D que registra sin red: caché de bloqueos con delta-sync y cola sin duplicados.",
+      "keywords": [
+        "Flutter",
+        "Riverpod",
+        "drift",
+        "dio",
+        "mobile_scanner"
       ],
-      "url": "https://adventjs.dev"
+      "problem": "En portería la señal se corta, pero la fila no espera: el lector tenía que decidir y registrar igual.",
+      "context": [
+        "Terminales rugged con lector 2D por hardware y teléfonos con cámara.",
+        "Bloqueos que deben respetarse aunque no haya conexión."
+      ],
+      "decisions": [
+        {
+          "title": "Una interfaz de escaneo",
+          "text": "ScannerService abstrae cámara (mobile_scanner) y lector por hardware (MethodChannel)."
+        },
+        {
+          "title": "Caché de bloqueos",
+          "text": "Sin red, la app usa la última ficha guardada y le sobrepone los bloqueos activos sincronizados."
+        },
+        {
+          "title": "Outbox idempotente",
+          "text": "Los registros sin red quedan en cola local (drift) y se reenvían al reconectar, sin duplicarse."
+        }
+      ],
+      "results": [
+        "La portería sigue operando sin conexión y el backend recibe cada evento una sola vez."
+      ],
+      "media": [
+        {
+          "src": "/media/control-acceso/app-peatones",
+          "caption": "Peatones",
+          "device": "phone"
+        },
+        {
+          "src": "/media/control-acceso/app-vehiculo",
+          "caption": "Vehículos",
+          "device": "phone"
+        }
+      ]
     },
     {
-      "name": "Codember",
-      "isActive": true,
-      "description": "Juego interactivo de programación con retos y secretos",
-      "highlights": [
-        "+2000 usuarios activos",
-        "Retos para cualquier lenguaje"
+      "slug": "kiosco-casino",
+      "name": "Kiosco de casino",
+      "type": "App Flutter",
+      "entity": "Proyecto propio · parte de Control de Acceso y Casino",
+      "startDate": "2026-08",
+      "description": "App para tablets Android montadas como kiosco en cada casino: escanea la credencial, resuelve el servicio vigente y registra el consumo.",
+      "summary": "Tablets de casino autorizadas por dispositivo, servicio vigente por horario y re-login silencioso.",
+      "keywords": [
+        "Flutter",
+        "Riverpod",
+        "drift",
+        "device_info_plus"
       ],
-      "url": "https://codember.dev"
+      "problem": "El personal de casino necesitaba marcar consumos rápido, solo desde equipos autorizados y sin que un token vencido lo sacara de la pantalla.",
+      "context": [
+        "Tablets identificadas por dispositivo y dadas de alta por casino.",
+        "TRASNOCHE cruza medianoche: el día del servicio no es el día calendario."
+      ],
+      "decisions": [
+        {
+          "title": "Dispositivo autorizado",
+          "text": "El androidId se compara con los dispositivos del casino; si no coincide, la app se bloquea."
+        },
+        {
+          "title": "Servicio por horario",
+          "text": "La app resuelve el servicio vigente según la hora de Chile, incluido el que cruza medianoche."
+        },
+        {
+          "title": "Re-login silencioso",
+          "text": "Ante un 401 reintenta con las credenciales guardadas en vez de interrumpir al operador."
+        }
+      ],
+      "results": [
+        "Marcación continua en hora punta, solo desde equipos registrados."
+      ],
+      "media": [
+        {
+          "src": "/media/control-acceso/app-casino",
+          "caption": "Tablet de casino: marcas, repite e historial",
+          "device": "tablet"
+        }
+      ]
     },
     {
-      "name": "codi.link",
-      "isActive": true,
-      "description": "Playground de código HTML, CSS y JavaScript para compartir",
-      "highlights": [
-        "100k visitas al mes",
-        "Desarrollado por la comunidad"
+      "slug": "kecomo",
+      "name": "KeComo",
+      "type": "App móvil",
+      "entity": "Proyecto propio",
+      "startDate": "2026-06",
+      "description": "App para registrar los alimentos que consumes y detectar posibles alérgenos, con reportes en PDF.",
+      "keywords": [
+        "Flutter",
+        "Riverpod",
+        "SQLite",
+        "PDF"
       ],
-      "url": "https://codi.link",
-      "github": "https://github.com/midudev/codi.link"
+      "media": [
+        {
+          "src": "/media/kecomo/app",
+          "caption": "Registro de comidas, reacciones y resumen semanal",
+          "device": "phone"
+        }
+      ],
+      "thumb": {
+        "base": "/media/kecomo/app",
+        "frame": "phone",
+        "alt": "KeComo: pantalla Hoy con el registro de comidas"
+      }
     },
     {
-      "name": "Pruebas Técnicas",
-      "isActive": true,
-      "description": "Lista de pruebas técnicas de empresas para practicar programación",
-      "highlights": [
-        "100% gratuito",
-        "+500 soluciones de la comunidad"
+      "slug": "gestion-presupuesto",
+      "name": "Kuentas Klaras",
+      "type": "App web (PWA)",
+      "entity": "Proyecto propio",
+      "startDate": "2026-05",
+      "description": "Gestión de finanzas personales: gastos por categoría y tarjeta, cuotas, suscripciones y cuentas de ahorro, con bancos chilenos y sugerencias con IA. En producción como app web instalable.",
+      "keywords": [
+        "React",
+        "Node.js"
       ],
-      "url": "https://pruebastecnicas.com",
-      "github": "https://github.com/midudev/pruebas-tecnicas"
+      "url": "https://gastos.adaptaweb.cl/",
+      "media": [
+        {
+          "src": "/media/gastos/app",
+          "caption": "Transacciones, cuotas, ahorros y resumen del mes",
+          "device": "phone"
+        }
+      ],
+      "thumb": {
+        "base": "/media/gastos/app",
+        "frame": "phone",
+        "alt": "Kuentas Klaras: transacciones del mes"
+      },
+      "urlLabel": "Abrir app"
     },
     {
-      "name": "miduConf",
-      "description": "Conferencia de programación en streaming para la comunidad hispanohablante con charlas top",
-      "highlights": [
-        "+15k tickets repartidos",
-        "+50k espectadores en directo"
+      "slug": "ideas-blueprint",
+      "name": "Ideas Blueprint",
+      "type": "Plataforma web",
+      "entity": "Proyecto propio",
+      "startDate": "2026-06",
+      "description": "Plataforma para gestionar ideas de mejora de principio a fin: tablero kanban con prioridades, taller visual para maquetar cada idea sobre capturas con pines de problema y mejora, y modo presentación. Suma herramientas de trabajo diario: homologación de planillas Excel de personal a CSV y gestión de contactos por centro de trabajo con auditoría de cambios.",
+      "summary": "Tablero kanban, taller visual y modo presentación para ideas de mejora, más homologación de Excel y gestión de clientes.",
+      "keywords": [
+        "Astro",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "PostgreSQL",
+        "Konva"
       ],
-      "url": "https://miduconf.com"
+      "url": "https://ideas.adaptaweb.cl/",
+      "urlLabel": "Visitar sitio",
+      "media": [
+        {
+          "src": "/media/ideas/tablero",
+          "title": "Tablero",
+          "caption": "Tablero kanban por estado y columna de prioridades"
+        },
+        {
+          "src": "/media/ideas/taller",
+          "title": "Taller y presentación",
+          "caption": "Taller visual con línea de tiempo y modo presentación"
+        },
+        {
+          "src": "/media/ideas/homologacion",
+          "title": "Homologación",
+          "caption": "Excel de personal convertido a CSV (datos ficticios)"
+        },
+        {
+          "src": "/media/ideas/clientes",
+          "title": "Clientes",
+          "caption": "Contactos por centro de trabajo (datos ficticios)"
+        }
+      ],
+      "thumb": {
+        "base": "/media/ideas/tablero",
+        "frame": "browser",
+        "domain": "ideas.adaptaweb.cl",
+        "alt": "Ideas Blueprint: tablero de ideas"
+      }
+    },
+    {
+      "slug": "adaptaweb",
+      "name": "AdaptaWeb",
+      "type": "Sitio web",
+      "entity": "Proyecto propio",
+      "startDate": "2026-05",
+      "description": "Landing de mi marca de desarrollo: servicios de software, apps móviles, integraciones y soporte, con las aplicaciones que tengo en producción y formulario de contacto.",
+      "keywords": [
+        "Astro",
+        "React",
+        "Tailwind CSS",
+        "Three.js",
+        "GSAP"
+      ],
+      "url": "https://www.adaptaweb.cl/",
+      "urlLabel": "Visitar sitio",
+      "thumb": {
+        "src": "/media/thumbs/adaptaweb.jpg",
+        "frame": "browser",
+        "domain": "adaptaweb.cl",
+        "alt": "AdaptaWeb: portada del sitio",
+        "video": "/media/adaptaweb/web.mp4"
+      }
+    },
+    {
+      "slug": "bank-craft",
+      "name": "Bank Craft",
+      "type": "App web + IoT",
+      "entity": "Proyecto propio",
+      "startDate": "2026-04",
+      "description": "Tareas del hogar gamificadas al estilo Minecraft: los padres aprueban por Telegram y Home Assistant reacciona en casa.",
+      "keywords": [
+        "Python",
+        "Flask",
+        "Telegram",
+        "Home Assistant",
+        "Raspberry Pi"
+      ],
+      "thumb": {
+        "src": "/media/thumbs/bank-craft.jpg",
+        "frame": "browser",
+        "domain": "tareas.adaptaweb.cl",
+        "alt": "Bank Craft: misiones del día"
+      }
+    },
+    {
+      "slug": "sistema-dgm",
+      "name": "Sistema de control de acceso y casino DGM",
+      "type": "Web + apps móviles",
+      "entity": "Workmate",
+      "startDate": "2018-10",
+      "description": "Sistema de control de acceso y casino en operación en faena. Fui su desarrollador principal (web en Laravel + MongoDB y aplicaciones móviles) y hoy lo monitoreo y doy soporte diario a la web y las apps.",
+      "summary": "Desarrollador principal; hoy monitoreo y soporte diario de la web y las apps móviles.",
+      "keywords": [
+        "PHP",
+        "Laravel",
+        "MongoDB",
+        "Docker",
+        "Apps móviles"
+      ]
     }
   ]
 }

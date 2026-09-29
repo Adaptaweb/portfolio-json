@@ -1,0 +1,113 @@
+---
+// App demo clip inside a phone or tablet bezel, as in the Control de Acceso y Casino presentation.
+// Web clips use WebPlaylist. `src` is a clip base with -claro/-oscuro versions; Showcase switches them.
+interface Props {
+  src: string
+  caption: string
+  device: 'phone' | 'tablet'
+  class?: string
+}
+
+const { src, caption, device, class: className } = Astro.props
+---
+
+<figure class:list={['demo', device, className]}>
+  <div class="frame">
+    <video
+      data-autoplay
+      data-base={src}
+      data-phase="claro"
+      src={`${src}-claro.mp4`}
+      poster={`${src}-claro.jpg`}
+      muted
+      loop
+      playsinline
+      preload="none"
+      aria-label={caption}
+    ></video>
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<style>
+  .demo {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+  .frame {
+    position: relative;
+    width: 100%;
+    background: linear-gradient(145deg, #2b2e33, #131416);
+    box-shadow:
+      0 0 0 1px #3a3e44 inset,
+      0 50px 80px -40px rgb(0 0 0 / 0.9),
+      0 30px 80px -45px color-mix(in oklab, var(--accent) 55%, transparent);
+    transition:
+      transform 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+  .frame:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 0 0 1px #4a5058 inset,
+      0 60px 100px -40px rgb(0 0 0 / 0.95),
+      0 30px 100px -35px color-mix(in oklab, var(--accent) 70%, transparent);
+  }
+  video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #0f1113;
+  }
+
+  /* Phone: 1080 × 2340 screen inside a bezel with a punch-hole camera */
+  .phone .frame {
+    width: min(100%, 280px);
+    aspect-ratio: 1080 / 2340;
+    padding: 10px;
+    border-radius: 44px;
+  }
+  .phone .frame::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    border-radius: 50%;
+    background: #050505;
+    box-shadow: 0 0 0 2px #1c1e21;
+  }
+  .phone video {
+    border-radius: 35px;
+  }
+
+  /* Tablet: 1440 × 900 screen */
+  .tablet .frame {
+    aspect-ratio: 1440 / 900;
+    padding: 14px;
+    border-radius: 30px;
+  }
+  .tablet video {
+    border-radius: 18px;
+  }
+
+  figcaption {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: rgb(16 17 20 / 0.78);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    backdrop-filter: blur(12px);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--soft);
+    text-align: center;
+  }
+</style>

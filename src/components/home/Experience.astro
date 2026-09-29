@@ -1,0 +1,108 @@
+---
+import { work, formatRange } from '@/lib/cv'
+---
+
+<section id="experiencia">
+  <p class="label">03 · Experiencia</p>
+  <ol>
+    {
+      work.map((job, i) => (
+        <li class:list={['reveal', { current: i === 0 }]}>
+          <p class="when">{formatRange(job.startDate, job.endDate)}</p>
+          <div>
+            <h2>
+              {job.position}{' '}
+              <span>
+                · {job.url ? <a href={job.url} target="_blank" rel="noopener">{job.name}</a> : job.name}
+              </span>
+            </h2>
+            <p class="summary">{job.summary}</p>
+            {job.highlights.length > 0 && (
+              <ul>
+                {job.highlights.map((h) => (
+                  <li>{h}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  section {
+    display: grid;
+    gap: 24px;
+  }
+  ol {
+    margin-left: 6px;
+    border-left: 2px solid var(--line);
+    list-style: none;
+  }
+  ol > li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 24px;
+    padding: 0 0 36px 28px;
+  }
+  ol > li::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 7px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--line-2);
+  }
+  ol > li.current::before {
+    background: var(--accent);
+    box-shadow: 0 0 0 5px var(--accent-soft);
+  }
+  .when {
+    padding-top: 2px;
+    font: 13px var(--font-mono);
+    color: var(--muted);
+  }
+  h2 {
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  h2 span {
+    font-weight: 400;
+    color: var(--muted);
+  }
+  h2 a {
+    text-decoration-color: var(--line-2);
+    text-underline-offset: 4px;
+  }
+  h2 a:hover {
+    color: var(--accent);
+  }
+  .summary {
+    margin-top: 6px;
+    font-size: 16px;
+    color: var(--muted);
+  }
+  ul {
+    display: grid;
+    gap: 8px;
+    margin-top: 14px;
+    padding-left: 18px;
+    font-size: 16px;
+    color: var(--soft);
+  }
+  ul li::marker {
+    color: var(--accent);
+  }
+  @media (max-width: 760px) {
+    ol > li {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 6px;
+    }
+  }
+</style>

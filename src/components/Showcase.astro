@@ -1,0 +1,113 @@
+---
+// Demo area whose clips can be shown in their light or dark version (the page itself stays dark).
+// Selector: Auto (switches every 10 s with the sweep), Claro or Oscuro.
+import Icon from './Icon.astro'
+
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<div class:list={['showcase-theme', className]} data-demo-mode="auto" data-phase="claro">
+  <div class="switch" role="radiogroup" aria-label="Tema de la demostración">
+    <button type="button" class="glow" role="radio" aria-checked="true" data-mode="auto">Auto</button>
+    <button type="button" class="glow" role="radio" aria-checked="false" data-mode="claro" aria-label="Claro"><Icon name="sun" size={16} /></button>
+    <button type="button" class="glow" role="radio" aria-checked="false" data-mode="oscuro" aria-label="Oscuro"><Icon name="moon" size={16} /></button>
+  </div>
+  <slot />
+</div>
+
+<script>
+  import { loadClip, switchPhase, type Mode, type Phase } from '@/lib/theme-video'
+
+  // Every visit starts in Auto; a manual choice lasts only while on the page.
+  const AUTO_INTERVAL = 10_000
+  const roots = [...document.querySelectorAll<HTMLElement>('.showcase-theme')]
+  const other = (p: Phase): Phase => (p === 'claro' ? 'oscuro' : 'claro')
+  let mode: Mode = 'auto'
+  let timer: number | undefined
+  try {
+    localStorage.removeItem('demo-theme')
+  } catch {}
+
+  function setPhase(root: HTMLElement, phase: Phase) {
+    root.dataset.phase = phase
+    root.querySelectorAll<HTMLVideoElement>('video[data-base]').forEach((v) => {
+      if (v.dataset.phase === phase) return
+      // Playing clips get the sweep; paused ones (off screen) just point at the other version.
+      if (v.paused) loadClip(v, v.dataset.base!, phase)
+      else switchPhase(v, phase)
+    })
+  }
+
+  function apply(next: Mode) {
+    mode = next
+    for (const root of roots) {
+      root.dataset.demoMode = mode
+      root.querySelectorAll('[data-mode]').forEach((b) => b.setAttribute('aria-checked', String(b.getAttribute('data-mode') === mode)))
+      if (mode !== 'auto') setPhase(root, mode)
+    }
+    clearInterval(timer)
+    if (mode === 'auto') {
+      timer = window.setInterval(() => {
+        if (document.hidden) return
+        roots.forEach((root) => setPhase(root, other((root.dataset.phase as Phase) ?? 'claro')))
+      }, AUTO_INTERVAL)
+    }
+  }
+
+  for (const root of roots) {
+    root.querySelector('.switch')!.addEventListener('click', (e) => {
+      const button = (e.target as Element).closest<HTMLButtonElement>('[data-mode]')
+      if (button) apply(button.dataset.mode as Mode)
+    })
+  }
+  apply(mode)
+</script>
+
+<style>
+  .showcase-theme {
+    display: grid;
+    gap: 12px;
+  }
+  .showcase-theme > :global(.stage + .stage) {
+    margin-top: 8px;
+  }
+  .switch {
+    justify-self: end;
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 999px;
+    background: rgb(16 17 20 / 0.6);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    backdrop-filter: blur(12px);
+    transition:
+      background 0.5s,
+      border-color 0.5s;
+  }
+  .switch button {
+    display: grid;
+    place-items: center;
+    min-width: 40px;
+    height: 34px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 999px;
+    background-color: transparent;
+    color: var(--muted);
+    font: 600 12px var(--font-mono);
+    cursor: pointer;
+  }
+  .switch button:hover {
+    color: var(--ink);
+  }
+  .switch button[aria-checked='true'] {
+    --c: 255 255 255;
+    --aura: 184 242 91;
+    background-color: var(--accent);
+    color: var(--on-accent);
+  }
+</style>

@@ -1,0 +1,83 @@
+---
+// Stage behind the device renders, as in the Control de Acceso y Casino presentation: the backdrop is
+// the same clip, zoomed and blurred, playing in sync with the first video of the stage. It follows the
+// clip changes and the light/dark switch, so the stage takes the colour of whatever is on screen.
+// `backdrop` is the clip base the stage starts with.
+interface Props {
+  backdrop: string
+  class?: string
+}
+
+const { backdrop, class: className } = Astro.props
+---
+
+<div class:list={['stage', className]} data-stage>
+  <video
+    class="backdrop"
+    data-stage-backdrop
+    src={`${backdrop}-claro.mp4`}
+    poster={`${backdrop}-claro.jpg`}
+    muted
+    loop
+    playsinline
+    preload="none"
+    aria-hidden="true"
+    tabindex="-1"></video>
+  <div class="content">
+    <slot />
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-stage]').forEach((stage) => {
+    const backdrop = stage.querySelector<HTMLVideoElement>('[data-stage-backdrop]')!
+    const leader = stage.querySelector<HTMLVideoElement>('.content video')
+    if (!leader) return
+
+    const follow = () => {
+      if (backdrop.getAttribute('src') !== leader.getAttribute('src')) {
+        backdrop.poster = leader.poster
+        backdrop.src = leader.getAttribute('src') ?? ''
+      }
+      if (leader.paused) backdrop.pause()
+      else backdrop.play().catch(() => {})
+    }
+    const sync = () => {
+      if (Math.abs(backdrop.currentTime - leader.currentTime) > 0.3) backdrop.currentTime = leader.currentTime
+    }
+
+    // Clip and theme changes rewrite the leader's src; mirror them.
+    new MutationObserver(follow).observe(leader, { attributes: true, attributeFilter: ['src', 'poster'] })
+    leader.addEventListener('play', follow)
+    leader.addEventListener('pause', follow)
+    leader.addEventListener('seeked', sync)
+    leader.addEventListener('timeupdate', sync)
+    backdrop.addEventListener('loadeddata', sync)
+  })
+</script>
+
+<style>
+  .stage {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    border: 1px solid var(--line);
+    background: #0c0d0f;
+    isolation: isolate;
+  }
+  .backdrop {
+    position: absolute;
+    inset: -60px;
+    z-index: -1;
+    width: calc(100% + 120px);
+    height: calc(100% + 120px);
+    max-width: none;
+    object-fit: cover;
+    filter: blur(46px);
+    transform: scale(1.1);
+    pointer-events: none;
+  }
+  .content {
+    padding: clamp(20px, 3.5vw, 48px);
+  }
+</style>

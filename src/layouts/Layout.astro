@@ -1,73 +1,105 @@
 ---
+import '@/styles/global.css'
+import Sidebar from '@/components/Sidebar.astro'
+import Footer from '@/components/Footer.astro'
+import CommandPalette from '@/components/CommandPalette.astro'
+import { basics } from '@/lib/cv'
+
 interface Props {
-	title: string;
+  title?: string
+  description?: string
 }
 
-const { title } = Astro.props;
+const {
+  title = `${basics.name} · ${basics.label}`,
+  description = basics.summary,
+} = Astro.props
+const canonical = new URL(Astro.url.pathname, Astro.site ?? basics.url)
+const ogImage = new URL('/og.png', Astro.site ?? basics.url)
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="es-CL">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0b0d10" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CL" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <div class="shell">
+      <Sidebar />
+      <main id="contenido">
+        <slot />
+        <Footer />
+      </main>
+    </div>
+    <CommandPalette />
+
+    <script>
+      import '@/scripts/glow'
+
+      // Autoplay demo videos only while visible; they load nothing until then (preload="none").
+      const videos = document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]')
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (!reduce) {
+        const io = new IntersectionObserver(
+          (entries) =>
+            entries.forEach(({ target, isIntersecting }) => {
+              const v = target as HTMLVideoElement
+              isIntersecting ? v.play().catch(() => {}) : v.pause()
+            }),
+          { threshold: 0.35 },
+        )
+        videos.forEach((v) => io.observe(v))
+      }
+    </script>
+  </body>
 </html>
-<style is:global>
-  html {
-    font-family: monospace, "Lucida Sans", "Lucida Sans Regular",
-      "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-	background: #FFF;
-	letter-spacing: -0.025rem;
 
-	}
-  body,figure {
-    margin: 0;
-    padding: 0;
+<style>
+  .shell {
+    display: grid;
+    grid-template-columns: 380px minmax(0, 1fr);
+    gap: clamp(24px, 3vw, 48px);
+    align-items: start;
+    max-width: 1480px;
+    margin-inline: auto;
+    padding: var(--gutter);
   }
-  a{
-	text-decoration: none;
+  main {
+    display: grid;
+    gap: clamp(64px, 8vw, 104px);
+    padding-top: 12px;
+    min-width: 0;
   }
-  ul{
-	list-style: none;
-	margin: 0;
-	padding: 0;
+  .skip {
+    position: absolute;
+    left: 16px;
+    top: -60px;
+    z-index: 100;
+    padding: 10px 16px;
+    background: var(--accent);
+    color: var(--on-accent);
+    border-radius: 10px;
   }
-  *,*::before,*::after{
-	box-sizing: border-box;
-
+  .skip:focus {
+    top: 12px;
   }
-  h1,h2,h3,h4{
-	margin: 0;
-	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
+  @media (max-width: 980px) {
+    .shell {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
-  p{
-	color: #666;
-	font-size: 0.9rem;
-	line-height: 1.5;
-	margin: 0;
-	text-wrap: pretty;
-
-  }
-  .print{
-	display: none !important; 
-  }
-  @media print{
-	.no-print{
-	  display: none !important;
-	 }
-  }
-  @media print{
-	.print{
-	  display: block !important;
-	} 
-	}
 </style>

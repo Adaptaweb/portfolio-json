@@ -1,0 +1,47 @@
+---
+import Icon from './Icon.astro'
+import { basics } from '@/lib/cv'
+const year = new Date().getFullYear()
+---
+
+<footer>
+  <div class="cta card">
+    <div>
+      <h2>¿Conversamos?</h2>
+      <p>Proyectos web, apps móviles o sistemas que tengan que funcionar en terreno.</p>
+    </div>
+    <a class="btn btn-primary" href={`mailto:${basics.email}`}><Icon name="mail" /> {basics.email}</a>
+  </div>
+  <p class="legal">© {year} {basics.name} · Hecho con Astro en Calama</p>
+</footer>
+
+<style>
+  footer {
+    display: grid;
+    gap: 28px;
+    padding-bottom: 24px;
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 32px;
+    border-radius: 24px;
+  }
+  h2 {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  p {
+    color: var(--muted);
+  }
+  .btn {
+    overflow-wrap: anywhere;
+  }
+  .legal {
+    font-size: 14px;
+  }
+</style>

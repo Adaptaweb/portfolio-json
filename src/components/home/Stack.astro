@@ -1,0 +1,241 @@
+---
+import { skills, education, languages } from '@/lib/cv'
+import { stackIcon } from '@/lib/stack-icons'
+
+const slug = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[^a-z]/g, '')
+
+const groups = skills.map((s) => {
+  const withLogo = s.keywords.filter((k) => stackIcon(k))
+  return {
+    id: slug(s.name),
+    name: s.name,
+    total: s.keywords.length,
+    tiles: withLogo.map((k) => ({ name: k, ...stackIcon(k)! })),
+    extra: s.keywords.filter((k) => !stackIcon(k)),
+  }
+})
+---
+
+<section id="stack">
+  <p class="label">04 · Stack</p>
+  <h2 class="title">Mi <em>stack</em></h2>
+  <p class="intro">Tecnologías con las que diseño, construyo y despliego aplicaciones web, APIs y apps móviles.</p>
+
+  <div class="filters" role="group" aria-label="Filtrar por categoría">
+    <button type="button" class="glow" aria-pressed="true" data-filter="all">Todas</button>
+    {
+      groups.map((g) => (
+        <button type="button" class="glow" aria-pressed="false" data-filter={g.id}>
+          {g.name}
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="groups">
+    {
+      groups.map((g) => (
+        <div class="group" data-group={g.id}>
+          <div class="head">
+            <h3>{g.name}</h3>
+            <p>{g.total} tecnologías</p>
+          </div>
+          <div class="body">
+            <ul class="tiles glow-zone">
+              {g.tiles.map((t, i) => (
+                <li class="tile glow-card" style={`--i: ${i}; --c: ${t.rgb}`}>
+                  <img src={t.src} alt="" width="40" height="40" loading="lazy" decoding="async" />
+                  <span>{t.name}</span>
+                </li>
+              ))}
+            </ul>
+            {g.extra.length > 0 && <p class="extra">También: {g.extra.join(' · ')}</p>}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="more card">
+    {
+      education.map((e) => (
+        <p>
+          <span>Formación</span>
+          {e.area} · {e.institution} · {e.startDate}–{e.endDate}
+        </p>
+      ))
+    }
+    <p>
+      <span>Idiomas</span>
+      {languages.map((l) => `${l.language} ${l.fluency.toLowerCase()}`).join(' · ')}
+    </p>
+  </div>
+</section>
+
+<script>
+  const root = document.getElementById('stack')!
+
+  const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-filter]')]
+  const groups = [...root.querySelectorAll<HTMLElement>('[data-group]')]
+  buttons.forEach((b) =>
+    b.addEventListener('click', () => {
+      const f = b.dataset.filter
+      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)))
+      groups.forEach((g) => {
+        g.hidden = f !== 'all' && g.dataset.group !== f
+        // Replay the entrance so a filter change feels like a new selection.
+        g.classList.remove('enter')
+        void g.offsetWidth
+        g.classList.add('enter')
+      })
+    }),
+  )
+</script>
+
+<style>
+  section {
+    display: grid;
+    gap: 16px;
+  }
+  .title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .intro {
+    max-width: 640px;
+    color: var(--muted);
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 20px;
+  }
+  .filters button {
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    background-color: var(--surface);
+    color: var(--muted);
+    font: 500 13px var(--font-mono);
+    letter-spacing: 0.02em;
+    cursor: pointer;
+  }
+  .filters button:hover {
+    color: var(--ink);
+  }
+  .filters button[aria-pressed='true'] {
+    --c: 255 255 255;
+    --aura: 184 242 91;
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+    font-weight: 600;
+  }
+  .groups {
+    display: grid;
+    gap: clamp(40px, 5vw, 64px);
+  }
+  .group {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 24px;
+    align-items: start;
+  }
+  .head h3 {
+    font-size: clamp(28px, 3.2vw, 42px);
+    overflow-wrap: anywhere;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .head p {
+    margin-top: 10px;
+    font: 12px var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 12px;
+    list-style: none;
+  }
+  .tile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid rgb(255 255 255 / 0.05);
+    border-radius: 12px;
+    background-color: color-mix(in oklab, var(--surface) 70%, transparent);
+  }
+  .tile:hover {
+    background-color: var(--surface-2);
+  }
+  .tile img {
+    width: 40px;
+    height: 40px;
+    flex: none;
+    object-fit: contain;
+    transition: transform 0.3s cubic-bezier(0.3, 1.5, 0.5, 1);
+  }
+  .tile:hover img {
+    transform: rotate(-8deg) scale(1.1);
+  }
+  .tile span {
+    font: 700 14px var(--font-mono);
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+  .extra {
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .group.enter .tile {
+    animation: tile-in 0.45s ease-out both;
+    animation-delay: calc(var(--i) * 40ms);
+  }
+  @keyframes tile-in {
+    from {
+      opacity: 0;
+      translate: 0 16px;
+    }
+  }
+  .more {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin-top: 32px;
+    padding: 22px;
+  }
+  .more p {
+    display: grid;
+    gap: 2px;
+    font-size: 15px;
+  }
+  .more span {
+    font: 12px var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  @media (max-width: 900px) {
+    .group,
+    .more {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .tiles {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+  }
+</style>

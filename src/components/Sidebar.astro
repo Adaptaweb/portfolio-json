@@ -1,0 +1,220 @@
+---
+import Icon from './Icon.astro'
+import { basics, profile, PDF_PATH } from '@/lib/cv'
+
+const linkedin = profile('LinkedIn')
+const github = profile('GitHub')
+
+const sections = [
+  { id: 'sobre', label: 'Sobre mí' },
+  { id: 'proyectos', label: 'Proyectos' },
+  { id: 'experiencia', label: 'Experiencia' },
+  { id: 'stack', label: 'Stack' },
+]
+const onHome = Astro.url.pathname === '/'
+---
+
+<aside class="side card">
+  <a href="/" class="who" aria-label="Inicio">
+    <img src={basics.image} alt={`Retrato de ${basics.name}`} width="112" height="112" />
+    <div>
+      <p class="name">{basics.name}</p>
+      <p class="role">{basics.label}</p>
+    </div>
+  </a>
+
+  <ul class="meta">
+    <li><Icon name="pin" /> {basics.location.city}, Chile</li>
+    <li><Icon name="briefcase" /> Soporte senior en Workmate</li>
+    <li><span class="dot" aria-hidden="true"></span> Abierto a proyectos freelance</li>
+  </ul>
+
+  <nav aria-label="Secciones">
+    <ul class="glow-zone glow-short">
+      {
+        sections.map((s, i) => (
+          <li>
+            <a class="glow-card" href={`${onHome ? '' : '/'}#${s.id}`} data-section={s.id}>
+              {s.label}
+              <span>{String(i + 1).padStart(2, '0')}</span>
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a class="glow-card" href="/cv">Currículum <span><Icon name="file" size={14} /></span></a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="actions">
+    <a class="btn btn-primary" href={PDF_PATH} download>Descargar CV</a>
+    {linkedin && <a class="btn btn-icon" href={linkedin.url} target="_blank" rel="noopener" aria-label="LinkedIn"><Icon name="linkedin" /></a>}
+    {github && <a class="btn btn-icon" href={github.url} target="_blank" rel="noopener" aria-label="GitHub"><Icon name="github" /></a>}
+    <a class="btn btn-icon" href={`mailto:${basics.email}`} aria-label={`Escribir a ${basics.email}`}><Icon name="mail" /></a>
+  </div>
+
+  <button type="button" class="search glow" data-open-palette>
+    <Icon name="search" size={16} /> Buscar o navegar <kbd>Ctrl K</kbd>
+  </button>
+</aside>
+
+<script>
+  // Highlight the section currently in view (home page only).
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.side [data-section]')]
+  const targets = links.map((a) => document.getElementById(a.dataset.section!)).filter(Boolean) as HTMLElement[]
+  if (targets.length) {
+    const setActive = (id: string) =>
+      links.forEach((a) => a.toggleAttribute('aria-current', a.dataset.section === id))
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      { rootMargin: '-40% 0px -55% 0px' },
+    )
+    targets.forEach((t) => io.observe(t))
+  }
+</script>
+
+<style>
+  .side {
+    position: sticky;
+    top: var(--gutter);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 32px 28px;
+    border-radius: 28px;
+  }
+  .who {
+    display: grid;
+    gap: 18px;
+    text-decoration: none;
+  }
+  img {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent);
+  }
+  .name {
+    font-size: 30px;
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .role {
+    margin-top: 8px;
+    color: var(--muted);
+  }
+  .meta {
+    display: grid;
+    gap: 8px;
+    list-style: none;
+    font-size: 15px;
+    color: var(--soft);
+  }
+  .meta li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .meta :global(svg) {
+    color: var(--muted);
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    margin-inline: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2.4s infinite;
+  }
+  @keyframes pulse {
+    50% {
+      opacity: 0.4;
+    }
+  }
+  nav {
+    padding-block: 16px;
+    border-block: 1px solid var(--line);
+  }
+  nav ul {
+    display: grid;
+    gap: 2px;
+    list-style: none;
+  }
+  nav a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 14px;
+    border-radius: 12px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  nav a span {
+    display: inline-flex;
+    font: 12px var(--font-mono);
+  }
+  nav a:hover,
+  nav a[aria-current] {
+    background-color: var(--surface-2);
+    color: var(--ink);
+  }
+  nav a[aria-current] span {
+    color: var(--accent);
+  }
+  .actions {
+    display: flex;
+    gap: 8px;
+  }
+  .actions .btn-primary {
+    flex-grow: 1;
+    white-space: nowrap;
+  }
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 0 14px;
+    background-color: transparent;
+    border: 1px dashed var(--line-2);
+    border-radius: 12px;
+    color: var(--muted);
+    font: 14px var(--font-sans);
+    cursor: pointer;
+  }
+  .search:hover {
+    color: var(--ink);
+  }
+  kbd {
+    margin-left: auto;
+    padding: 1px 6px;
+    border: 1px solid var(--line-2);
+    border-radius: 6px;
+    font: 11px var(--font-mono);
+  }
+
+  @media (max-width: 980px) {
+    .side {
+      position: static;
+    }
+    .who {
+      grid-template-columns: 88px minmax(0, 1fr);
+      align-items: center;
+    }
+    img {
+      width: 88px;
+      height: 88px;
+    }
+    .name {
+      font-size: 24px;
+    }
+    nav,
+    .search {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+import Icon from '../Icon.astro'
+
+const roles = [
+  {
+    icon: 'code',
+    title: 'Desarrollo full stack',
+    text: 'Web, APIs y apps móviles de punta a punta con React, FastAPI, Flutter y PostgreSQL.',
+  },
+  {
+    icon: 'headset',
+    title: 'Soporte senior',
+    text: 'En Workmate atiendo el soporte del sistema de acreditación SUCAL y del sistema de acceso DGM.',
+  },
+  {
+    icon: 'mine',
+    title: 'Terreno en faena',
+    text: 'Mantengo sistemas de control de acceso y casino; he recorrido distintas divisiones de Codelco por todo Chile.',
+  },
+] as const
+---
+
+<section id="sobre" class="about">
+  <p class="label">01 · Sobre mí</p>
+  <h1 class="title">Desarrollo software y mantengo sistemas que no pueden detenerse.</h1>
+  <p class="lead">
+    Ingeniero en Informática en Calama. Construyo aplicaciones web y móviles de punta a punta, y en Workmate soy soporte
+    senior: fui el desarrollador principal del sistema de control de acceso y casino DGM, que hoy monitoreo a diario,
+    atiendo el sistema de acreditación SUCAL y mantengo en terreno los sistemas de acceso y casino en faenas de Codelco a lo
+    largo de Chile.
+  </p>
+  <ul class="roles glow-zone">
+    {
+      roles.map((r) => (
+        <li class="card glow-card reveal">
+          <Icon name={r.icon} size={26} />
+          <h2>{r.title}</h2>
+          <p>{r.text}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    gap: 20px;
+  }
+  .lead {
+    max-width: 840px;
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .roles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+    list-style: none;
+  }
+  .roles li {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 24px;
+  }
+  .roles :global(svg) {
+    color: var(--accent);
+  }
+  h2 {
+    font-size: 19px;
+    font-weight: 600;
+  }
+  .roles p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  @media (max-width: 760px) {
+    .roles {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,526 @@
+---
+import Icon from '../Icon.astro'
+import WebPlaylist from '../WebPlaylist.astro'
+import Stage from '../Stage.astro'
+import Showcase from '../Showcase.astro'
+import { projects, hasDetailPage } from '@/lib/cv'
+import { stackIcon } from '@/lib/stack-icons'
+import { clipUrl } from '@/lib/theme-video'
+
+const featured = projects.find((p) => p.slug === 'control-acceso-casino')!
+const webClips = featured.media?.filter((m) => !m.device) ?? []
+// Lector and kiosco are shown inside the featured platform, not as separate cards.
+const others = projects.filter((p) => p !== featured && !p.entity.includes('parte de'))
+// Cards without a public screenshot (DGM runs on client data) show their stack logos instead.
+const logosOf = (p: (typeof projects)[number]) => p.keywords.map(stackIcon).filter((i) => i !== undefined)
+// Captures with a clip base start in light and follow the featured demo's theme (see the script below).
+const shotOf = (t: NonNullable<(typeof projects)[number]['thumb']>) => ({
+  img: t.base ? clipUrl(t.base, 'claro', 'jpg') : t.src!,
+  video: t.base ? clipUrl(t.base, 'claro') : t.video,
+})
+// Web projects with several demo clips play all of them in sequence on hover (looping back to the first).
+const clipsOf = (p: (typeof projects)[number]) => {
+  const bases = p.media?.filter((m) => !m.device).map((m) => m.src) ?? []
+  return p.thumb?.base && bases.length > 1 ? JSON.stringify(bases) : undefined
+}
+---
+
+<section id="proyectos" class="projects">
+  <p class="label">02 · Proyectos</p>
+
+  <article class="featured card glow-card reveal">
+    <div class="info">
+      <span class="badge">Proyecto propio · principal</span>
+      <h2 style={`view-transition-name: case-${featured.slug}`}>{featured.name}</h2>
+      <p class="desc">{featured.description}</p>
+      <p class="mono">{featured.keywords.join(' · ')}</p>
+      <a class="btn btn-primary" href={`/casos/${featured.slug}`}>Ver el proyecto <Icon name="arrow" /></a>
+    </div>
+    {
+      webClips.length > 0 && (
+        <Showcase class="media">
+          <Stage backdrop={webClips[0].src}>
+            <WebPlaylist clips={webClips} />
+          </Stage>
+        </Showcase>
+      )
+    }
+  </article>
+
+  <ul class="grid glow-zone">
+    {
+      others.map((p) => (
+        <li class:list={['card glow-card reveal', { wide: p.thumb?.wide, linked: hasDetailPage(p) }]}>
+          <div class:list={["shot", `shot-${p.thumb?.frame ?? "logos"}`]}>
+            {p.thumb ? (
+              <>
+                <img class="blur" src={shotOf(p.thumb).img} data-base={p.thumb.base} alt="" loading="lazy" decoding="async" />
+                {p.thumb.frame === 'phone' ? (
+                  <div class="phone">
+                    <img class="cap" src={shotOf(p.thumb).img} data-base={p.thumb.base} alt={p.thumb.alt} loading="lazy" decoding="async" />
+                    {shotOf(p.thumb).video && <video class="hover-video" src={shotOf(p.thumb).video} data-base={p.thumb.base} data-phase="claro" data-clips={clipsOf(p)} muted loop={!clipsOf(p)} playsinline preload="none" aria-hidden="true" />}
+                  </div>
+                ) : (
+                  <div class="browser">
+                    <div class="bar" aria-hidden="true">
+                      <i />
+                      <i />
+                      <i />
+                      <span>{p.thumb.domain}</span>
+                    </div>
+                    <div class="screen">
+                      <img class="cap" src={shotOf(p.thumb).img} data-base={p.thumb.base} alt={p.thumb.alt} loading="lazy" decoding="async" />
+                      {shotOf(p.thumb).video && <video class="hover-video" src={shotOf(p.thumb).video} data-base={p.thumb.base} data-phase="claro" data-clips={clipsOf(p)} muted loop={!clipsOf(p)} playsinline preload="none" aria-hidden="true" />}
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div class="logo-row">
+                  {logosOf(p).map((l) => (
+                    <span class="logo">
+                      <img src={l.src} alt="" width="36" height="36" loading="lazy" />
+                    </span>
+                  ))}
+                </div>
+                <span class="note">En producción · sin capturas públicas (datos de cliente)</span>
+              </>
+            )}
+          </div>
+          <div class="body">
+            <p class="kind">
+              {p.type} · {p.entity}
+            </p>
+            <h3 style={`view-transition-name: case-${p.slug}`}>{p.name}</h3>
+            <p class="text">{p.summary ?? p.description}</p>
+            <p class="mono">{p.keywords.join(' · ')}</p>
+            {(hasDetailPage(p) || p.url) && (
+              <div class="links">
+                {hasDetailPage(p) && (
+                  <a class="more detail" href={`/casos/${p.slug}`}>
+                    {p.media ? 'Ver demo' : 'Ver detalle'} <Icon name="arrow" size={16} />
+                  </a>
+                )}
+                {p.url && (
+                  <a class="more ext" href={p.url} target="_blank" rel="noopener">
+                    {p.urlLabel ?? 'Abrir app'} <Icon name="arrow-up-right" size={16} />
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .projects {
+    display: grid;
+    gap: 20px;
+  }
+  .featured {
+    display: grid;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.5fr);
+    gap: 32px;
+    align-items: center;
+    padding: 28px;
+    border-radius: 24px;
+  }
+  .info {
+    display: grid;
+    justify-items: start;
+    gap: 14px;
+  }
+  .badge {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  h2 {
+    font-size: clamp(28px, 3vw, 34px);
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .desc {
+    font-size: 16px;
+    color: var(--muted);
+  }
+  .featured :global(.stage .content) {
+    padding: clamp(16px, 2vw, 28px);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    list-style: none;
+  }
+  .grid > li {
+    display: flex;
+    flex-direction: column;
+  }
+  .grid > li.wide {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+  }
+  .wide .shot {
+    order: 2;
+    height: auto;
+    min-height: 220px;
+    border-bottom: 0;
+    border-left: 1px solid var(--line);
+    border-radius: 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0;
+  }
+  .wide .shot-browser {
+    min-height: 340px;
+  }
+
+  /* Screenshot area: the capture blurred as backdrop and the device on top, as in the demos. */
+  .shot {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    background: #0c0d0f;
+    border-bottom: 1px solid var(--line);
+    border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+  }
+  .blur {
+    position: absolute;
+    inset: -40px;
+    width: calc(100% + 80px);
+    height: calc(100% + 80px);
+    max-width: none;
+    object-fit: cover;
+    filter: blur(34px);
+    transform: scale(1.1);
+  }
+  .phone {
+    position: absolute;
+    left: 50%;
+    top: 34px;
+    width: 170px;
+    height: 330px;
+    margin-left: -85px;
+    padding: 7px;
+    border-radius: 30px;
+    background: linear-gradient(145deg, #2b2e33, #131416);
+    box-shadow:
+      0 0 0 1px #3a3e44 inset,
+      0 30px 60px -20px rgb(0 0 0 / 0.8);
+    transition: translate 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .phone {
+    overflow: hidden;
+  }
+  .phone img,
+  .phone video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 24px;
+  }
+  /* The whole recording fits inside the frame (16:10 screen), centered over the blurred backdrop. */
+  .shot-browser {
+    display: grid;
+    place-items: center;
+  }
+  .browser {
+    position: relative;
+    width: min(100% - 48px, 360px);
+    overflow: hidden;
+    border-radius: 12px;
+    background: #0d0e10;
+    box-shadow:
+      0 0 0 1px #3a3e44,
+      0 30px 60px -20px rgb(0 0 0 / 0.8);
+    transition: translate 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: #18191c;
+    border-bottom: 1px solid #2a2d31;
+    font: 11px var(--font-mono);
+    color: var(--muted);
+  }
+  .bar i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+  .bar i:nth-child(1) {
+    background: #ff5f57;
+  }
+  .bar i:nth-child(2) {
+    background: #febc2e;
+  }
+  .bar i:nth-child(3) {
+    background: #28c840;
+  }
+  .bar span {
+    margin-left: 8px;
+  }
+  .screen {
+    position: relative;
+    aspect-ratio: 16 / 10;
+  }
+  .screen img,
+  .screen video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+  }
+  /* The recorded demo fades in over the screenshot while the card is hovered. */
+  .hover-video {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  .phone .hover-video {
+    inset: 7px;
+    width: calc(100% - 14px);
+    height: calc(100% - 14px);
+  }
+  .hover-video.playing {
+    opacity: 1;
+  }
+  @media (hover: hover) {
+    .grid > li:hover .phone,
+    .grid > li:hover .browser {
+      translate: 0 -8px;
+    }
+  }
+  .shot-logos {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 18px;
+    padding: 24px;
+    background-color: #101317;
+    background-image:
+      linear-gradient(#1b2028 1px, transparent 1px),
+      linear-gradient(90deg, #1b2028 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .logo-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+  }
+  .logo {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: var(--surface);
+    border: 1px solid var(--line-2);
+  }
+  .logo img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+  }
+  .note {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgb(16 17 20 / 0.8);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--soft);
+    text-align: center;
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 10px;
+    padding: 22px 24px 24px;
+  }
+  .wide .body {
+    justify-content: center;
+  }
+  .kind {
+    font: 12px var(--font-mono);
+    color: var(--muted);
+  }
+  h3 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .text {
+    flex-grow: 1;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .wide .text {
+    flex-grow: 0;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    color: var(--accent);
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
+  }
+  .more:hover {
+    color: var(--accent-hover);
+  }
+  /* Cards with their own page open it from anywhere: the detail link stretches over the whole card,
+     external links stay clickable above it. */
+  .linked .detail::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+  }
+  .linked .ext {
+    position: relative;
+    z-index: 4;
+  }
+  @media (max-width: 1280px) {
+    .featured {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 860px) {
+    .grid,
+    .grid > li.wide {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .wide .shot {
+      order: 0;
+      border-left: 0;
+      border-bottom: 1px solid var(--line);
+      border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+    }
+  }
+  @media (max-width: 640px) {
+    .featured {
+      padding: 22px;
+    }
+  }
+</style>
+
+<script>
+  import { changeClip, clipUrl, loadClip, switchPhase, type Phase } from '@/lib/theme-video'
+
+  const cards = [...document.querySelectorAll<HTMLElement>('.projects .grid > li')]
+
+  // Cards with a recorded demo play it only while hovered; the rest keep their screenshot.
+  for (const card of cards) {
+    const video = card.querySelector<HTMLVideoElement>('.hover-video')
+    if (!video) continue
+    const clips: string[] = JSON.parse(video.dataset.clips ?? '[]')
+    const phase = () => (video.dataset.phase as Phase | undefined) ?? 'claro'
+    video.addEventListener('playing', () => video.classList.add('playing'))
+    // Several clips: when one ends the next one starts, and after the last it goes back to the first.
+    video.addEventListener('ended', () => {
+      if (clips.length < 2) return
+      const next = clips[(clips.indexOf(video.dataset.base!) + 1) % clips.length]
+      changeClip(video, next, phase())
+    })
+    card.addEventListener('pointerenter', (e) => {
+      if (e.pointerType !== 'mouse') return
+      video.play().catch(() => {})
+    })
+    card.addEventListener('pointerleave', () => {
+      video.pause()
+      video.classList.remove('playing')
+      // Back to the first clip so the capture under it matches the next time.
+      if (clips.length > 1 && video.dataset.base !== clips[0]) loadClip(video, clips[0], phase())
+      else video.currentTime = 0
+    })
+  }
+
+  // Swap a capture to the other theme with the same circular sweep as the demo videos.
+  function sweepImage(img: HTMLImageElement, src: string, phase: Phase) {
+    const next = new Image()
+    next.src = src
+    next
+      .decode()
+      .catch(() => {})
+      .then(() => {
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches || !img.offsetWidth) {
+          img.src = src
+          return
+        }
+        const cover = img.cloneNode() as HTMLImageElement
+        cover.alt = ''
+        Object.assign(cover.style, {
+          position: 'absolute',
+          zIndex: '1',
+          pointerEvents: 'none',
+          left: `${img.offsetLeft}px`,
+          top: `${img.offsetTop}px`,
+          width: `${img.offsetWidth}px`,
+          height: `${img.offsetHeight}px`,
+        })
+        img.after(cover)
+        img.src = src
+        const origin = phase === 'oscuro' ? '100% 0%' : '0% 100%'
+        cover.animate([{ clipPath: `circle(150% at ${origin})` }, { clipPath: `circle(0% at ${origin})` }], {
+          duration: 750,
+          easing: 'cubic-bezier(.65, 0, .35, 1)',
+          fill: 'forwards',
+        }).onfinish = () => cover.remove()
+        setTimeout(() => cover.remove(), 1200)
+      })
+  }
+
+  // Captures with light/dark versions follow the theme of the featured demo (Auto switches it every 10 s).
+  function setPhase(phase: Phase) {
+    for (const card of cards) {
+      const video = card.querySelector<HTMLVideoElement>('video[data-base]')
+      const cap = card.querySelector<HTMLImageElement>('img.cap[data-base]')
+      const blur = card.querySelector<HTMLImageElement>('img.blur[data-base]')
+      if (!cap) continue
+      const base = cap.dataset.base!
+      const src = clipUrl(base, phase, 'jpg')
+      if (blur) blur.src = src
+      if (video && !video.paused) {
+        switchPhase(video, phase)
+        cap.src = src
+      } else {
+        if (video && video.dataset.phase !== phase) loadClip(video, video.dataset.base ?? base, phase)
+        sweepImage(cap, src, phase)
+      }
+    }
+  }
+
+  const demo = document.querySelector<HTMLElement>('.featured [data-demo-mode]')
+  if (demo) {
+    let current = demo.dataset.phase as Phase
+    new MutationObserver(() => {
+      const phase = demo.dataset.phase as Phase
+      if (phase !== current) setPhase((current = phase))
+    }).observe(demo, { attributes: true, attributeFilter: ['data-phase'] })
+  }
+</script>
