@@ -147,6 +147,10 @@ const groups = skills.map((s) => {
     gap: 24px;
     align-items: start;
   }
+  /* `display: grid` above would otherwise override the hidden attribute set by the filter. */
+  .group[hidden] {
+    display: none;
+  }
   .head h3 {
     font-size: clamp(28px, 3.2vw, 42px);
     overflow-wrap: anywhere;
