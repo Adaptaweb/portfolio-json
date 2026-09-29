@@ -20,7 +20,7 @@ export type Project = Omit<(typeof cv.projects)[number], 'architecture' | 'media
 }
 type Node = { name: string; detail: string; primary?: boolean }
 
-export const { basics, work, education, skills, languages } = cv
+export const { basics, work, education, skills, languages, licenses } = cv
 export const projects = cv.projects as Project[]
 
 const MONTHS = ['ene.', 'feb.', 'mar.', 'abr.', 'may.', 'jun.', 'jul.', 'ago.', 'sept.', 'oct.', 'nov.', 'dic.']

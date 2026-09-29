@@ -7,6 +7,7 @@ import {
   education,
   skills,
   languages,
+  licenses,
   projects,
   profile,
   formatRange,
@@ -161,6 +162,18 @@ const cvProjects = [
                 <p class="lang">
                   <span>{l.language}</span> {l.fluency}
                 </p>
+              ))
+            }
+          </section>
+
+          <section>
+            <h2>Licencias</h2>
+            {
+              licenses.map((l) => (
+                <div class="skill">
+                  <h3>{l.name}</h3>
+                  <p>{l.summary}</p>
+                </div>
               ))
             }
           </section>

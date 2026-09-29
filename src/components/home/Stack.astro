@@ -1,5 +1,5 @@
 ---
-import { skills, education, languages } from '@/lib/cv'
+import { skills, education, languages, licenses } from '@/lib/cv'
 import { stackIcon } from '@/lib/stack-icons'
 
 const slug = (s: string) =>
@@ -73,6 +73,14 @@ const groups = skills.map((s) => {
       <span>Idiomas</span>
       {languages.map((l) => `${l.language} ${l.fluency.toLowerCase()}`).join(' · ')}
     </p>
+    {
+      licenses.map((l) => (
+        <p>
+          <span>Licencia</span>
+          {l.name} · {l.summary.charAt(0).toLowerCase() + l.summary.slice(1)}
+        </p>
+      ))
+    }
   </div>
 </section>
 
@@ -217,13 +225,14 @@ const groups = skills.map((s) => {
   }
   .more {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
     margin-top: 32px;
     padding: 22px;
   }
   .more p {
     display: grid;
+    align-content: start;
     gap: 2px;
     font-size: 15px;
   }

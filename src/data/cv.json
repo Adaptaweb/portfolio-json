@@ -144,6 +144,12 @@
       "fluency": "Intermedio"
     }
   ],
+  "licenses": [
+    {
+      "name": "Licencia de conducir clase B",
+      "summary": "Experiencia en conducción dentro de faenas mineras"
+    }
+  ],
   "projects": [
     {
       "slug": "control-acceso-casino",
