@@ -153,12 +153,31 @@
   "projects": [
     {
       "slug": "control-acceso-casino",
-      "name": "Control de Acceso y Casino",
+      "name": "Plataforma Integral de Gestión Operacional, Accesos y Casino",
+      "shortName": "Control de Acceso y Casino",
       "type": "Plataforma web + API + apps móviles",
       "entity": "Proyecto propio",
       "startDate": "2026-07",
-      "description": "Plataforma completa que desarrollé por mi cuenta: registra quién entra y sale de un recinto (Personas, Vehículos y Pasajeros) y quién consume en casino, con un mismo servicio de validación para el panel web, las apps Flutter de portería y casino, y el catálogo offline. Incluye la migración de datos desde MongoDB a PostgreSQL y pruebas de carga con k6.",
-      "summary": "Panel web, API y apps Flutter con modo offline, desarrollados por mi cuenta; incluye la migración de datos configurable a PostgreSQL y pruebas de carga con k6.",
+      "description": "Desarrollé de manera autónoma una solución tecnológica completa diseñada para optimizar la seguridad y operación en recintos de alto tráfico.",
+      "summary": "Solución completa desarrollada de forma autónoma: control en tiempo real de accesos (personas, vehículos y pasajeros) y consumos de casino, con un motor de validación central para el dashboard web y las apps Flutter con modo offline; incluye la migración de MongoDB a PostgreSQL y pruebas de carga con k6.",
+      "highlights": [
+        {
+          "title": "Control Operacional 360°",
+          "text": "Registro y validación en tiempo real de ingresos/salidas (personas, vehículos y pasajeros) y control de raciones/consumos en casino."
+        },
+        {
+          "title": "Ecosistema Multiplataforma",
+          "text": "Un único motor de validación centralizado que da servicio al dashboard web y a las aplicaciones móviles desarrolladas en Flutter para portería y casino."
+        },
+        {
+          "title": "Resiliencia Operativa (Offline)",
+          "text": "Catálogo sincronizado localmente que permite a las apps seguir validando eventos incluso sin conexión a internet."
+        },
+        {
+          "title": "Modernización e Infraestructura",
+          "text": "Migración estratégica de datos desde MongoDB a PostgreSQL para optimizar consultas relacionales y pruebas de carga con k6 para asegurar máxima escalabilidad y tolerancia al tráfico pesado."
+        }
+      ],
       "keywords": [
         "React 19",
         "TypeScript",

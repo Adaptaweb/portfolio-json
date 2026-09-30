@@ -1,8 +1,12 @@
 import cv from '@cv'
 
-export type Project = Omit<(typeof cv.projects)[number], 'architecture' | 'media' | 'url' | 'urlLabel' | 'thumb'> & {
+export type Project = Omit<(typeof cv.projects)[number], 'architecture' | 'media' | 'url' | 'urlLabel' | 'thumb' | 'highlights' | 'shortName'> & {
   endDate?: string
+  /** Name for tight spots (browser bar of the demo, command palette). */
+  shortName?: string
   summary?: string
+  /** Key points shown on the featured card (titles) and the case page (full text). */
+  highlights?: { title: string; text: string }[]
   url?: string
   urlLabel?: string
   /** Card capture: a fixed `src` (+ optional hover `video`), or a demo clip `base` with -claro/-oscuro versions. */

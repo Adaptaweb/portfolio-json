@@ -42,6 +42,16 @@ const columns = p.architecture
       <p class="label">{p.type} · {p.entity}</p>
       <h1 class="title" style={`view-transition-name: case-${p.slug}`}>{p.name}</h1>
       <p class="lead">{p.description}</p>
+      {p.highlights && (
+        <ul class="highlights">
+          {p.highlights.map((h) => (
+            <li>
+              <Icon name="check" size={18} />
+              <p><strong>{h.title}:</strong> {h.text}</p>
+            </li>
+          ))}
+        </ul>
+      )}
       <dl class="meta">
         <div><dt>Periodo</dt><dd>{formatRange(p.startDate, p.endDate)}</dd></div>
         <div><dt>Stack</dt><dd>{p.keywords.join(' · ')}</dd></div>
@@ -59,7 +69,7 @@ const columns = p.architecture
         <Showcase>
           {screens.length > 0 && (
             <Stage backdrop={screens[0].src}>
-              <WebPlaylist clips={screens} app={p.name} />
+              <WebPlaylist clips={screens} app={p.shortName ?? p.name} />
             </Stage>
           )}
           {devices.length > 0 && (
@@ -193,6 +203,29 @@ const columns = p.architecture
     max-width: 820px;
     font-size: 18px;
     color: var(--muted);
+  }
+  .highlights {
+    display: grid;
+    gap: 12px;
+    max-width: 820px;
+    list-style: none;
+  }
+  .highlights li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .highlights :global(svg) {
+    flex: none;
+    margin-top: 3px;
+    color: var(--accent);
+  }
+  .highlights strong {
+    color: var(--ink);
+    font-weight: 600;
   }
   .meta {
     display: flex;

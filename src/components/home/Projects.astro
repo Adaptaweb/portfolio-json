@@ -33,6 +33,15 @@ const clipsOf = (p: (typeof projects)[number]) => {
       <span class="badge">Proyecto propio · principal</span>
       <h2 style={`view-transition-name: case-${featured.slug}`}>{featured.name}</h2>
       <p class="desc">{featured.description}</p>
+      {featured.highlights && (
+        <ul class="points">
+          {featured.highlights.map((h) => (
+            <li>
+              <Icon name="check" size={16} /> {h.title}
+            </li>
+          ))}
+        </ul>
+      )}
       <p class="mono">{featured.keywords.join(' · ')}</p>
       <a class="btn btn-primary" href={`/casos/${featured.slug}`}>Ver el proyecto <Icon name="arrow" /></a>
     </div>
@@ -143,7 +152,7 @@ const clipsOf = (p: (typeof projects)[number]) => {
     font-weight: 600;
   }
   h2 {
-    font-size: clamp(28px, 3vw, 34px);
+    font-size: clamp(24px, 2.2vw, 28px);
     line-height: 1.1;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -151,6 +160,22 @@ const clipsOf = (p: (typeof projects)[number]) => {
   .desc {
     font-size: 16px;
     color: var(--muted);
+  }
+  .points {
+    display: grid;
+    gap: 6px;
+    list-style: none;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .points li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .points :global(svg) {
+    flex: none;
+    color: var(--accent);
   }
   .featured :global(.stage .content) {
     padding: clamp(16px, 2vw, 28px);
