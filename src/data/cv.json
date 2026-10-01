@@ -1,7 +1,7 @@
 {
   "basics": {
     "name": "Alejandro Tamayo Echavarría",
-    "label": "Full Stack Developer · Soporte Senior",
+    "label": "Full Stack Developer · Frontend y UX",
     "image": "/me.webp",
     "email": "a.tamayo.web@gmail.com",
     "phone": "+56 9 71977092",
@@ -176,6 +176,24 @@
         {
           "title": "Modernización e Infraestructura",
           "text": "Migración estratégica de datos desde MongoDB a PostgreSQL para optimizar consultas relacionales y pruebas de carga con k6 para asegurar máxima escalabilidad y tolerancia al tráfico pesado."
+        }
+      ],
+      "uxDetails": [
+        {
+          "title": "Claro u oscuro según el lugar",
+          "text": "Toda la plataforma tiene modo claro y oscuro: legible tanto en una oficina iluminada como en una portería de noche."
+        },
+        {
+          "title": "Sigue funcionando sin red",
+          "text": "Si se cae la conexión en terreno, las apps siguen validando con el catálogo local; el usuario no tiene que hacer nada distinto."
+        },
+        {
+          "title": "Respuesta inmediata en casino",
+          "text": "La tablet muestra al instante si la marca es válida, si es un consumo repetido y el historial, para que la fila no se detenga."
+        },
+        {
+          "title": "Nada bloquea la pantalla",
+          "text": "Los reportes grandes se generan en segundo plano y quedan en «Mis reportes»; se puede seguir trabajando mientras tanto."
         }
       ],
       "keywords": [
@@ -515,7 +533,7 @@
       "url": "https://www.adaptaweb.cl/",
       "urlLabel": "Visitar sitio",
       "thumb": {
-        "src": "/media/thumbs/adaptaweb.jpg",
+        "src": "/media/thumbs/adaptaweb.webp",
         "frame": "browser",
         "domain": "adaptaweb.cl",
         "alt": "AdaptaWeb: portada del sitio",
@@ -537,7 +555,7 @@
         "Raspberry Pi"
       ],
       "thumb": {
-        "src": "/media/thumbs/bank-craft.jpg",
+        "src": "/media/thumbs/bank-craft.webp",
         "frame": "browser",
         "domain": "tareas.adaptaweb.cl",
         "alt": "Bank Craft: misiones del día"

@@ -1,12 +1,14 @@
 import cv from '@cv'
 
-export type Project = Omit<(typeof cv.projects)[number], 'architecture' | 'media' | 'url' | 'urlLabel' | 'thumb' | 'highlights' | 'shortName'> & {
+export type Project = Omit<(typeof cv.projects)[number], 'architecture' | 'media' | 'url' | 'urlLabel' | 'thumb' | 'highlights' | 'shortName' | 'uxDetails'> & {
   endDate?: string
   /** Name for tight spots (browser bar of the demo, command palette). */
   shortName?: string
   summary?: string
   /** Key points shown on the featured card (titles) and the case page (full text). */
   highlights?: { title: string; text: string }[]
+  /** User-experience decisions shown on the case page ("Detalles de experiencia"). */
+  uxDetails?: { title: string; text: string }[]
   url?: string
   urlLabel?: string
   /** Card capture: a fixed `src` (+ optional hover `video`), or a demo clip `base` with -claro/-oscuro versions. */

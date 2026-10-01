@@ -1,11 +1,11 @@
 // Light/dark demo clips, as in the Control de Acceso y Casino presentation.
-// Every clip exists twice: `${base}-claro.mp4` and `${base}-oscuro.mp4` (plus a `.jpg` poster each).
+// Every clip exists twice: `${base}-claro.mp4` and `${base}-oscuro.mp4` (plus a `.webp` poster each).
 // Only the clips change theme; the page around them stays dark.
 
 export type Mode = 'auto' | 'claro' | 'oscuro'
 export type Phase = 'claro' | 'oscuro'
 
-export const clipUrl = (base: string, phase: Phase, ext: 'mp4' | 'jpg' = 'mp4') => `${base}-${phase}.${ext}`
+export const clipUrl = (base: string, phase: Phase, ext: 'mp4' | 'webp' = 'mp4') => `${base}-${phase}.${ext}`
 
 /** Theme currently shown by the Showcase that contains `el` (light when there is none). */
 export const phaseOf = (el: Element): Phase =>
@@ -17,7 +17,7 @@ const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').match
 export function loadClip(video: HTMLVideoElement, base: string, phase: Phase) {
   video.dataset.base = base
   video.dataset.phase = phase
-  video.poster = clipUrl(base, phase, 'jpg')
+  video.poster = clipUrl(base, phase, 'webp')
   video.src = clipUrl(base, phase)
 }
 

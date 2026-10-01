@@ -15,7 +15,7 @@ const others = projects.filter((p) => p !== featured && !p.entity.includes('part
 const logosOf = (p: (typeof projects)[number]) => p.keywords.map(stackIcon).filter((i) => i !== undefined)
 // Captures with a clip base start in light and follow the featured demo's theme (see the script below).
 const shotOf = (t: NonNullable<(typeof projects)[number]['thumb']>) => ({
-  img: t.base ? clipUrl(t.base, 'claro', 'jpg') : t.src!,
+  img: t.base ? clipUrl(t.base, 'claro', 'webp') : t.src!,
   video: t.base ? clipUrl(t.base, 'claro') : t.video,
 })
 // Web projects with several demo clips play all of them in sequence on hover (looping back to the first).
@@ -435,6 +435,20 @@ const clipsOf = (p: (typeof projects)[number]) => {
       grid-template-columns: minmax(0, 1fr);
     }
   }
+  @media (max-width: 420px) {
+    .logo-row {
+      gap: 10px;
+    }
+    .logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+    }
+    .logo img {
+      width: 30px;
+      height: 30px;
+    }
+  }
   @media (max-width: 860px) {
     .grid,
     .grid > li.wide {
@@ -528,7 +542,7 @@ const clipsOf = (p: (typeof projects)[number]) => {
       const blur = card.querySelector<HTMLImageElement>('img.blur[data-base]')
       if (!cap) continue
       const base = cap.dataset.base!
-      const src = clipUrl(base, phase, 'jpg')
+      const src = clipUrl(base, phase, 'webp')
       if (blur) blur.src = src
       if (video && !video.paused) {
         switchPhase(video, phase)

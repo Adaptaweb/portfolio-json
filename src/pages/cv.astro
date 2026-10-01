@@ -1,4 +1,5 @@
 ---
+import onestFont from '@fontsource-variable/onest/files/onest-latin-wght-normal.woff2?url'
 import '@/styles/global.css'
 import Icon from '@/components/Icon.astro'
 import {
@@ -38,6 +39,7 @@ const cvProjects = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href={onestFont} as="font" type="font/woff2" crossorigin />
     <title>CV · {basics.name}</title>
     <meta name="description" content={`Currículum de ${basics.name}: ${basics.label}.`} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -314,6 +316,13 @@ const cvProjects = [
   .contact a {
     color: inherit;
     text-decoration: none;
+  }
+  /* On screen the contact links get a comfortable tap area; print keeps the compact layout. */
+  @media screen {
+    .contact a {
+      display: inline-block;
+      padding-block: 5px;
+    }
   }
   .photo {
     width: 26mm;

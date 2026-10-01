@@ -93,6 +93,23 @@ const columns = p.architecture
     }
 
     {
+      p.uxDetails && (
+        <section class="block">
+          <h2 class="label">Detalles de experiencia</h2>
+          <ul class="ux">
+            {p.uxDetails.map((d) => (
+              <li class="card reveal">
+                <Icon name="check" size={20} />
+                <h3>{d.title}</h3>
+                <p>{d.text}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
       p.problem && (
         <section class="block">
           <h2 class="label">El problema</h2>
@@ -305,6 +322,30 @@ const columns = p.architecture
       width: calc(50% - 6px);
     }
   }
+  .ux {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    list-style: none;
+  }
+  .ux li {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    padding: 22px;
+  }
+  .ux :global(svg) {
+    color: var(--accent);
+  }
+  .ux h3 {
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .ux p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
   .context {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -400,6 +441,7 @@ const columns = p.architecture
   }
   @media (max-width: 860px) {
     .block,
+    .ux,
     .context,
     .decisions,
     .arch {
