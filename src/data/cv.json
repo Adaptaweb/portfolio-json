@@ -205,7 +205,7 @@
         "Docker",
         "k6"
       ],
-      "problem": "Supervisión y clientes dependían de consultas manuales a la base de datos y de planillas sueltas para saber quién estaba en faena y cuánto se consumía en casino. El sistema anterior, en Laravel y MongoDB, ya no sostenía el volumen ni los reportes que se pedían.",
+      "problem": "Supervisión y clientes necesitaban saber en todo momento quién estaba en faena y cuánto se consumía en casino, sin depender de consultas manuales ni de planillas sueltas, y con reportes que respondieran a medida que crecía el volumen de registros.",
       "context": [
         "Faena con turnos y jornadas: cada evento trae empresa, contrato y tipo de acreditación.",
         "Servicios de casino con ventana horaria; TRASNOCHE cruza la medianoche.",
@@ -275,8 +275,8 @@
             "primary": true
           },
           {
-            "name": "MongoDB legado",
-            "detail": "origen migrado desde Laravel"
+            "name": "MongoDB",
+            "detail": "origen de la migración de datos"
           }
         ]
       },
