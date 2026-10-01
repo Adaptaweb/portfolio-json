@@ -4,6 +4,7 @@ import '@/styles/global.css'
 import Sidebar from '@/components/Sidebar.astro'
 import Footer from '@/components/Footer.astro'
 import CommandPalette from '@/components/CommandPalette.astro'
+import MobileNav from '@/components/MobileNav.astro'
 import { basics } from '@/lib/cv'
 
 interface Props {
@@ -47,6 +48,7 @@ const ogImage = new URL('/og.png', Astro.site ?? basics.url)
         <Footer />
       </main>
     </div>
+    <MobileNav />
     <CommandPalette />
 
     <script>
@@ -102,6 +104,8 @@ const ogImage = new URL('/og.png', Astro.site ?? basics.url)
   @media (max-width: 980px) {
     .shell {
       grid-template-columns: minmax(0, 1fr);
+      /* Room for the fixed bottom navigation so it never covers the footer. */
+      padding-bottom: calc(var(--gutter) + 88px + env(safe-area-inset-bottom));
     }
   }
 </style>
