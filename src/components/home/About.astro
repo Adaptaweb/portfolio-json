@@ -29,6 +29,29 @@ const sites = [
   },
   { group: 'Otras faenas', items: ['Puerto Mejillones', 'Mantos Verdes', 'Mantos Blancos'] },
 ]
+// How I approach the interface of every app (shown under the role cards).
+const principles: { icon: 'user' | 'hand' | 'sparkle' | 'guide'; title: string; text: string }[] = [
+  {
+    icon: 'user',
+    title: 'En el lugar de quien lo usa',
+    text: 'Antes de diseñar una pantalla pienso en quién la va a usar, dónde y en qué condiciones.',
+  },
+  {
+    icon: 'hand',
+    title: 'Botones grandes y visibles',
+    text: 'Áreas táctiles amplias y alto contraste para operar con guantes o con poca visibilidad.',
+  },
+  {
+    icon: 'sparkle',
+    title: 'Simple de aprender',
+    text: 'Flujos cortos e intuitivos para que cualquier persona domine la app o la plataforma en poco tiempo.',
+  },
+  {
+    icon: 'guide',
+    title: 'Tutoriales interactivos',
+    text: 'Incluyo recorridos guiados dentro de las apps que enseñan cada función paso a paso.',
+  },
+]
 const firstYear = 2017
 const stats: { value: string; label: string; groups?: typeof sites }[] = [
   { value: `${new Date().getFullYear() - firstYear}+`, label: 'años en la gran minería' },
@@ -81,6 +104,22 @@ const stats: { value: string; label: string; groups?: typeof sites }[] = [
       ))
     }
   </ul>
+  <div class="design">
+    <h2 class="design-title">Diseño pensando en quien lo usa</h2>
+    <ul class="principles">
+      {
+        principles.map((d) => (
+          <li class="reveal">
+            <span class="badge-icon">
+              <Icon name={d.icon} size={20} />
+            </span>
+            <h3>{d.title}</h3>
+            <p>{d.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 </section>
 
 <style>
@@ -205,8 +244,59 @@ const stats: { value: string; label: string; groups?: typeof sites }[] = [
     font: 12px/1.6 var(--font-mono);
     color: var(--soft);
   }
+  .design {
+    display: grid;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .design-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    list-style: none;
+  }
+  .principles li {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line-2);
+  }
+  .badge-icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: color-mix(in oklab, var(--accent) 14%, transparent);
+    color: var(--accent);
+  }
+  .principles h3 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .principles p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  @media (max-width: 1100px) {
+    .principles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
   @media (max-width: 760px) {
     .roles {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 560px) {
+    .principles {
       grid-template-columns: minmax(0, 1fr);
     }
   }
