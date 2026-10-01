@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro'
-import { basics, profile, PDF_PATH } from '@/lib/cv'
+import { basics, licenses, profile, PDF_PATH } from '@/lib/cv'
 
 const linkedin = profile('LinkedIn')
 const github = profile('GitHub')
@@ -26,6 +26,7 @@ const onHome = Astro.url.pathname === '/'
   <ul class="meta">
     <li><Icon name="pin" /> {basics.location.city}, Chile</li>
     <li><Icon name="briefcase" /> Soporte senior en Workmate</li>
+    {licenses.map((l) => <li><Icon name="car" /> {l.name.replace('Licencia de conducir', 'Licencia')}</li>)}
     <li><span class="dot" aria-hidden="true"></span> Abierto a proyectos freelance</li>
   </ul>
 

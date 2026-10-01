@@ -1,34 +1,74 @@
 ---
 import Icon from '../Icon.astro'
 
-const roles = [
+const roles: { icon: 'code' | 'headset' | 'mine'; title: string; text: string; tools?: string[] }[] = [
   {
     icon: 'code',
     title: 'Desarrollo full stack',
-    text: 'Web, APIs y apps móviles de punta a punta con React, FastAPI, Flutter y PostgreSQL.',
+    text: 'Diseño la arquitectura y construyo cada capa: API, panel web y apps móviles que siguen funcionando sin conexión. Lo dejo listo para operar con pruebas de carga y despliegue en contenedores.',
+    tools: ['React', 'TypeScript', 'FastAPI', 'Flutter', 'PostgreSQL', 'Docker'],
   },
   {
     icon: 'headset',
-    title: 'Soporte senior',
-    text: 'En Workmate atiendo el soporte del sistema de acreditación SUCAL y del sistema de acceso DGM.',
+    title: 'Soporte de sistemas críticos',
+    text: 'Recibo los casos, encuentro la causa en datos, logs o configuración y los cierro con una respuesta clara para el usuario. Lo que se repite lo convierto en mejoras del sistema.',
+    tools: ['Jira', 'PostgreSQL', 'MongoDB', 'MySQL', 'Docker'],
   },
   {
     icon: 'mine',
     title: 'Terreno en faena',
-    text: 'Mantengo sistemas de control de acceso y casino; he recorrido distintas divisiones de Codelco por todo Chile. Cuento con licencia de conducir clase B y experiencia manejando dentro de faenas mineras.',
+    text: 'Viajo a faena para mantener los sistemas en sitio y atender lo que no se resuelve a distancia. Cuento con licencia de conducir clase B y experiencia manejando dentro de faenas mineras.',
   },
-] as const
+]
+
+// Mining sites where I have worked for Workmate: Codelco work centers and camps, plus other operations.
+const sites = [
+  {
+    group: 'Codelco',
+    items: ['DGM', 'DRT', 'DSAL', 'DMH', 'DAND', 'DCH', 'CM', 'DVEN', 'DET', 'PMCHS', 'PRI', 'CPA', 'CPT', 'TALABRE', 'RTSULFUROS', 'RT_OXIDOS_SIM', 'TOVE', 'Campamento VP'],
+  },
+  { group: 'Otras faenas', items: ['Puerto Mejillones', 'Mantos Verdes', 'Mantos Blancos'] },
+]
+const firstYear = 2017
+const stats: { value: string; label: string; groups?: typeof sites }[] = [
+  { value: `${new Date().getFullYear() - firstYear}+`, label: 'años en la gran minería' },
+  { value: String(sites.reduce((n, g) => n + g.items.length, 0)), label: 'faenas y centros de trabajo mineros', groups: sites },
+]
 ---
 
 <section id="sobre" class="about">
   <p class="label">01 · Sobre mí</p>
-  <h1 class="title">Desarrollo software y mantengo sistemas que no pueden detenerse.</h1>
+  <h1 class="title">Full Stack Developer con experiencia en sistemas críticos para minería.</h1>
   <p class="lead">
-    Ingeniero en Informática en Calama. Construyo aplicaciones web y móviles de punta a punta, y en Workmate soy soporte
-    senior: fui el desarrollador principal del sistema de control de acceso y casino DGM, que hoy monitoreo a diario,
-    atiendo el sistema de acreditación SUCAL y mantengo en terreno los sistemas de acceso y casino en faenas de Codelco a lo
-    largo de Chile.
+    Ingeniero en Informática con más de {stats[0].value.replace('+', '')} años en la gran minería. Desarrollo aplicaciones
+    web y móviles de punta a punta, y las mantengo operando en terreno. En Workmate fui el desarrollador principal del
+    sistema de acceso y casino DGM, que hoy monitoreo a diario; atiendo además el sistema de acreditación SUCAL y he
+    recorrido divisiones de Codelco y otras faenas mineras manteniendo sus sistemas.
   </p>
+  <dl class="stats">
+    {
+      stats.map((s) => (
+        <div class:list={{ tip: s.groups }} tabindex={s.groups ? 0 : undefined}>
+          <dt>{s.label}</dt>
+          <dd>{s.value}</dd>
+          {s.groups && (
+            <div class="tooltip" role="tooltip">
+              {s.groups.map((g) => (
+                <div>
+                  <p>{g.group}</p>
+                  <ul>
+                    {g.items.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))
+    }
+  </dl>
   <ul class="roles glow-zone">
     {
       roles.map((r) => (
@@ -36,6 +76,7 @@ const roles = [
           <Icon name={r.icon} size={26} />
           <h2>{r.title}</h2>
           <p>{r.text}</p>
+          {r.tools && <p class="tools">{r.tools.join(' · ')}</p>}
         </li>
       ))
     }
@@ -52,6 +93,88 @@ const roles = [
     font-size: 18px;
     line-height: 1.65;
     color: var(--muted);
+  }
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 40px;
+  }
+  .stats > div {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  .stats dd {
+    margin: 0;
+    font-size: clamp(30px, 3.4vw, 40px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+  }
+  .stats dt {
+    font: 12px var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  /* Stats with a list open it on hover or keyboard focus. */
+  .tip {
+    position: relative;
+    cursor: help;
+  }
+  .tip dt {
+    text-decoration: underline dotted;
+    text-underline-offset: 4px;
+  }
+  .tooltip {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    z-index: 20;
+    display: grid;
+    gap: 12px;
+    width: max-content;
+    max-width: min(360px, 80vw);
+    padding: 12px;
+    border: 1px solid var(--line-2);
+    border-radius: 12px;
+    background: var(--surface);
+    box-shadow: 0 20px 40px -12px rgb(0 0 0 / 0.7);
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 -4px;
+    transition:
+      opacity 0.2s,
+      translate 0.2s,
+      visibility 0.2s;
+  }
+  .tip:hover .tooltip,
+  .tip:focus-within .tooltip {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+  }
+  .tooltip p {
+    margin-bottom: 6px;
+    font: 11px var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .tooltip ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+  }
+  .tooltip li {
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    font: 12px var(--font-mono);
+    color: var(--soft);
   }
   .roles {
     display: grid;
@@ -77,6 +200,10 @@ const roles = [
     font-size: 15px;
     line-height: 1.55;
     color: var(--muted);
+  }
+  .roles .tools {
+    font: 12px/1.6 var(--font-mono);
+    color: var(--soft);
   }
   @media (max-width: 760px) {
     .roles {
