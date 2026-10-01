@@ -263,10 +263,12 @@ a {
   border-radius: inherit;
   background: radial-gradient(var(--glow-r-inner, 260px) circle at var(--x, -999px) var(--y, -999px), rgb(var(--c) / 0.1), transparent 65%);
 }
-.glow-zone:hover .glow-card::before,
-.glow-card:hover::before,
-.glow-card:hover::after {
-  opacity: 1;
+@media (hover: hover) {
+  .glow-zone:hover .glow-card::before,
+  .glow-card:hover::before,
+  .glow-card:hover::after {
+    opacity: 1;
+  }
 }
 .glow-short {
   --glow-r: 120px;
@@ -276,14 +278,24 @@ a {
   opacity: 0;
 }
 
+/* Touch screens have no hover: buttons keep no glow, and the card crossing the middle of the
+   screen lights up instead, with the light travelling across it as you scroll (src/scripts/glow.ts). */
 @media (hover: none) {
   .glow::before,
   .glow::after,
   .btn::before,
-  .btn::after,
-  .glow-card::before,
-  .glow-card::after {
+  .btn::after {
     display: none;
+  }
+  .glow-card {
+    transition: border-color 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .glow-card.scroll-lit {
+    border-color: rgb(var(--c) / 0.35);
+  }
+  .glow-card.scroll-lit::before,
+  .glow-card.scroll-lit::after {
+    opacity: 1;
   }
 }
 

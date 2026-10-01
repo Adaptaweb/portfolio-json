@@ -327,6 +327,12 @@ const clipsOf = (p: (typeof projects)[number]) => {
       translate: 0 -8px;
     }
   }
+  @media (hover: none) {
+    .grid > li:global(.scroll-lit) .phone,
+    .grid > li:global(.scroll-lit) .browser {
+      translate: 0 -8px;
+    }
+  }
   .shot-logos {
     display: grid;
     place-content: center;
@@ -486,17 +492,19 @@ const clipsOf = (p: (typeof projects)[number]) => {
       const next = clips[(clips.indexOf(video.dataset.base!) + 1) % clips.length]
       changeClip(video, next, phase())
     })
-    card.addEventListener('pointerenter', (e) => {
-      if (e.pointerType !== 'mouse') return
-      video.play().catch(() => {})
-    })
-    card.addEventListener('pointerleave', () => {
+    const start = () => video.play().catch(() => {})
+    const stop = () => {
       video.pause()
       video.classList.remove('playing')
       // Back to the first clip so the capture under it matches the next time.
       if (clips.length > 1 && video.dataset.base !== clips[0]) loadClip(video, clips[0], phase())
       else video.currentTime = 0
-    })
+    }
+    card.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && start())
+    card.addEventListener('pointerleave', (e) => e.pointerType === 'mouse' && stop())
+    // On touch screens the card plays while it crosses the middle of the screen (src/scripts/glow.ts).
+    card.addEventListener('scrollfocus', start)
+    card.addEventListener('scrollblur', stop)
   }
 
   // Swap a capture to the other theme with the same circular sweep as the demo videos.

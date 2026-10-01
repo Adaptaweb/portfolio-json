@@ -13,6 +13,7 @@ const items = [
 ---
 
 <nav class="mobile-nav" aria-label="Secciones">
+  <span class="indicator" aria-hidden="true"></span>
   {
     items.map((it) => (
       <a href={`${onHome ? '' : '/'}#${it.id}`} data-mobile-section={it.id}>
@@ -28,18 +29,45 @@ const items = [
 </nav>
 
 <script>
-  // Mark the section in view, like the sidebar does on desktop.
-  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-mobile-section]')]
+  // Mark the section in view, like the sidebar does on desktop. The highlight is one pill that
+  // slides to the active item, both when tapping an item and while scrolling between sections.
+  const nav = document.querySelector<HTMLElement>('.mobile-nav')!
+  const pill = nav.querySelector<HTMLElement>('.indicator')!
+  const links = [...nav.querySelectorAll<HTMLAnchorElement>('[data-mobile-section]')]
   const targets = links.map((a) => document.getElementById(a.dataset.mobileSection!)).filter(Boolean) as HTMLElement[]
+  let lockedUntil = 0
+
+  function select(id: string | null) {
+    const link = links.find((a) => a.dataset.mobileSection === id)
+    links.forEach((a) => a.toggleAttribute('aria-current', a === link))
+    if (!link) {
+      pill.style.opacity = '0'
+      return
+    }
+    pill.style.opacity = '1'
+    pill.style.width = `${link.offsetWidth}px`
+    pill.style.translate = `${link.offsetLeft}px 0`
+  }
+
   if (targets.length) {
     const io = new IntersectionObserver(
-      (entries) =>
-        entries.forEach(
-          (e) => e.isIntersecting && links.forEach((a) => a.toggleAttribute('aria-current', a.dataset.mobileSection === e.target.id)),
-        ),
+      (entries) => {
+        // While the page scrolls to a tapped item, keep the pill on it instead of passing through
+        // every section on the way.
+        if (performance.now() < lockedUntil) return
+        entries.forEach((e) => e.isIntersecting && select(e.target.id))
+      },
       { rootMargin: '-40% 0px -55% 0px' },
     )
     targets.forEach((t) => io.observe(t))
+    links.forEach((a) =>
+      a.addEventListener('click', () => {
+        lockedUntil = performance.now() + 1200
+        select(a.dataset.mobileSection!)
+      }),
+    )
+    addEventListener('scrollend', () => (lockedUntil = 0))
+    addEventListener('resize', () => select(links.find((a) => a.hasAttribute('aria-current'))?.dataset.mobileSection ?? null))
   }
 </script>
 
@@ -89,9 +117,32 @@ const items = [
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    a,
+    button {
+      position: relative;
+      z-index: 1;
+    }
     a[aria-current] {
-      background-color: color-mix(in oklab, var(--accent) 14%, transparent);
       color: var(--accent);
+    }
+    .indicator {
+      position: absolute;
+      top: 6px;
+      left: 0;
+      height: calc(100% - 12px);
+      border-radius: 16px;
+      background-color: color-mix(in oklab, var(--accent) 14%, transparent);
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        translate 0.45s cubic-bezier(0.3, 1.3, 0.5, 1),
+        width 0.45s cubic-bezier(0.3, 1.3, 0.5, 1),
+        opacity 0.3s;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .indicator {
+        transition: opacity 0.3s;
+      }
     }
     a:active,
     button:active {
