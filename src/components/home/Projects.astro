@@ -18,9 +18,10 @@ const shotOf = (t: NonNullable<(typeof projects)[number]['thumb']>) => ({
   img: t.base ? clipUrl(t.base, 'claro', 'webp') : t.src!,
   video: t.base ? clipUrl(t.base, 'claro') : t.video,
 })
-// Web projects with several demo clips play all of them in sequence on hover (looping back to the first).
+// Projects with several demo clips for the card's frame play all of them in sequence on hover (looping back to the first).
 const clipsOf = (p: (typeof projects)[number]) => {
-  const bases = p.media?.filter((m) => !m.device).map((m) => m.src) ?? []
+  const device = p.thumb?.frame === 'phone' ? 'phone' : undefined
+  const bases = p.media?.filter((m) => m.device === device).map((m) => m.src) ?? []
   return p.thumb?.base && bases.length > 1 ? JSON.stringify(bases) : undefined
 }
 ---

@@ -75,7 +75,9 @@ const columns = p.architecture
           {devices.length > 0 && (
             <Stage backdrop={devices[0].src}>
               <div class:list={['devices', { mixed: phones.length > 0 && tablets.length > 0 }]}>
-                {phones.length > 0 && (
+                {phones.length > 1 && tablets.length === 0 ? (
+                  <WebPlaylist clips={phones} device="phone" />
+                ) : phones.length > 0 && (
                   <div class="phones">
                     {phones.map((m) => (
                       <DemoVideo src={m.src} caption={m.caption} device="phone" />

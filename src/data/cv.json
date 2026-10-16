@@ -457,13 +457,32 @@
       "url": "https://gastos.adaptaweb.cl/",
       "media": [
         {
-          "src": "/media/gastos/app",
-          "caption": "Transacciones, cuotas, ahorros y resumen del mes",
+          "src": "/media/gastos/transacciones",
+          "title": "Transacciones",
+          "caption": "Presupuesto, revisión de pendientes e ingreso manual (datos ficticios)",
+          "device": "phone"
+        },
+        {
+          "src": "/media/gastos/cuotas",
+          "title": "Cuotas",
+          "caption": "Cuotas y suscripciones del mes, con alta de Netflix (datos ficticios)",
+          "device": "phone"
+        },
+        {
+          "src": "/media/gastos/ahorros",
+          "title": "Ahorros",
+          "caption": "Cuentas de ahorro: nueva cuenta y depósito (datos ficticios)",
+          "device": "phone"
+        },
+        {
+          "src": "/media/gastos/resumen",
+          "title": "Resumen",
+          "caption": "Disponible del mes con detalle de cuotas, gastos y suscripciones",
           "device": "phone"
         }
       ],
       "thumb": {
-        "base": "/media/gastos/app",
+        "base": "/media/gastos/transacciones",
         "frame": "phone",
         "alt": "Kuentas Klaras: transacciones del mes"
       },

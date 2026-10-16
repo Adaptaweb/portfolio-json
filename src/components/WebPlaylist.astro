@@ -1,5 +1,6 @@
 ---
-// One browser window that plays several web demo clips back to back, with tabs to jump between them.
+// One browser window (or phone, with `device="phone"`) that plays several demo clips back to back,
+// with tabs to jump between them.
 // Each clip `src` is a base with -claro/-oscuro versions; the Showcase decides which one plays.
 interface Clip {
   src: string
@@ -9,18 +10,29 @@ interface Clip {
 interface Props {
   clips: Clip[]
   app?: string
+  device?: 'phone'
 }
 
-const { clips, app = 'Control de Acceso y Casino' } = Astro.props
+const { clips, app = 'Control de Acceso y Casino', device } = Astro.props
 const [first] = clips
 ---
 
-<figure class="playlist" data-playlist={JSON.stringify(clips)}>
+<figure class:list={['playlist', device]} data-playlist={JSON.stringify(clips)}>
   <div class="frame">
-    <div class="bar" aria-hidden="true">
-      <i></i><i></i><i></i>
-      <span>{app} · <b data-title>{first.title ?? first.caption}</b></span>
-    </div>
+    {
+      device ? (
+        <b data-title hidden>{first.title ?? first.caption}</b>
+      ) : (
+        <div class="bar" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <span>
+            {app} · <b data-title>{first.title ?? first.caption}</b>
+          </span>
+        </div>
+      )
+    }
     <video
       data-autoplay
       data-sequence
@@ -136,6 +148,40 @@ const [first] = clips
     object-fit: cover;
     object-position: top left;
     background: #0f1113;
+  }
+  /* Phone: 1080 × 2338 screen inside a bezel with a punch-hole camera, as in DemoVideo */
+  .phone .frame {
+    width: min(100%, 300px);
+    aspect-ratio: 1080 / 2338;
+    padding: 10px;
+    border-radius: 44px;
+    overflow: visible;
+    background: linear-gradient(145deg, #2b2e33, #131416);
+    box-shadow:
+      0 0 0 1px #3a3e44 inset,
+      0 50px 80px -40px rgb(0 0 0 / 0.9),
+      0 30px 80px -45px color-mix(in oklab, var(--accent) 55%, transparent);
+  }
+  .phone .frame::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    border-radius: 50%;
+    background: #050505;
+    box-shadow: 0 0 0 2px #1c1e21;
+  }
+  .phone video {
+    height: 100%;
+    aspect-ratio: auto;
+    border-radius: 35px;
+  }
+  .phone figcaption {
+    max-width: min(100%, 420px);
+    text-align: center;
   }
   figcaption {
     display: inline-flex;
